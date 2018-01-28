@@ -1,0 +1,30 @@
+<table class="table table-striped adopters-pet">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Nombre</th>
+      <th>Provincia</th>
+      <th>Ciudad</th>
+      <th>Comentarios</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% obj.each do |adopter| %>
+      <tr>
+        <% if adopter.photo? %>
+          <td><%= link_to image_tag(adopter.photo.url(:thumb)), user_path(adopter), class: "user-adopter-photo" %></td>
+        <% else %>
+          <td><%= link_to image_tag('user.png'), user_path(adopter), class: "user-adopter-photo" %></td>
+        <% end %>
+        <td><%= "#{adopter.name.capitalize} #{adopter.lastName.capitalize}" %></td>
+        <td><%= adopter.province %></td>
+        <td><%= adopter.city %></td>
+        <td><%= Adoption.get_adoption_comments(adopter, @pet) %></td>
+        <td><%= link_to "Asignar como Dueño!", adoption_path(id: @pet.id, userId: adopter.id, type: "accepted"), :class => 'btn btn-xs btn-success', method: :put %>
+            <%= link_to "Rechazar Solicitud!", adoption_path(id: @pet.id, userId: adopter.id, type: "rejected"), :class => 'btn btn-xs btn-danger', method: :put %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

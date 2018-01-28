@@ -1,0 +1,40 @@
+<%- model_class = Adoption -%>
+<div class="page-header">
+  <h1>Que tienes para ofrecerle a esta mascota?</h1>
+</div>
+
+<%= form_for @adoption, :html => { :class => "form-horizontal adoption col-lg-8 col-sm-offset-2" } do |f| %>
+
+  <% if @adoption.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@adoption.errors.count, "error") %> prohibited this adoption from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @adoption.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <%= hidden_field_tag 'petId', params[:petId]  %>
+  <%= hidden_field_tag 'userId', params[:userId]  %>
+
+  <div class="form-group">
+    <div class="col-lg-12">
+      <%= f.text_area :comments, :class => 'form-control', placeholder: "Por favor comentanos porque quieres esta mascota y que tienes para ofrecerle...", autofocus: true, rows: 8, :required => true %>
+    </div>
+    <%=f.error_span(:status) %>
+  </div>
+
+  <div class="form-group">
+    <div class="col-lg-offset-4 col-lg-10">
+      <%= f.submit "Crear Solicitud", :class => 'btn btn-primary' %>
+      <%= link_to "Cancelar", url_for(:back), :class => 'btn btn-default' %>
+    </div>
+  </div>
+
+<% end %>

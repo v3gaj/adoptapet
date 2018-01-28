@@ -1,0 +1,27 @@
+<% if Pet.owner_editor(@pet, current_user) %>
+  <%= render :template => 'photos/new' %>
+<% end %>
+
+<% if @photos && @photos.count > 0 %>
+  <div id="masonry-container" class="transitions-enabled infinite-scroll clearfix masonry-width">
+    <% @photos.each do |photo| %>
+      <div class="box col-lg-4">
+        <div class="box-img">
+          <div class="overlay-pet-gallery">
+            <div class="overlay_content_pet">
+              <a href="<%= photo.photo %>" rel="prettyPhoto[rel-cms-grid]"><i class="fa fa-hand-pointer-o"></i></a> 
+            </div>
+            <% if Pet.owner_editor(@pet, current_user) %>
+              <%= link_to [@pet, photo], :method => :delete, data: { confirm: 'Estás seguro que deseas borra la imagen?'}, :remote => true, class: "pet-photo-delete" do %>
+                <i class="fa fa-times-circle" aria-hidden="true"></i>
+              <% end %>
+            <% end %>
+          </div>
+          <%= image_tag photo.photo, class: "lazy" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="lead col-lg-12">No hay fotos disponibles!</p>
+<% end %>

@@ -1,0 +1,50 @@
+<%= bootstrap_devise_error_messages! %>
+<div class="page-header">
+  <h1>Registro de Usuario</h1>
+</div>
+
+<div class="col-lg-8 col-sm-offset-2">
+  <div class="panel panel-default devise-bs">
+    <div class="panel-heading">
+      <h4>Regístrate</h4>
+    </div>
+    <div class="panel-body">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { role: 'form' }) do |f| %>
+        <div class="form-group">
+          <%= f.label "Nombre *" %>
+          <%= f.text_field :name, autofocus: true, class: 'form-control', :required => true %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Apellido *" %>
+          <%= f.text_field :lastName, autofocus: true, class: 'form-control', :required => true %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Teléfono" %>
+          <%= f.text_field :phone, autofocus: true, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Provincia" %>
+          <%= f.select :province, options_for_select([ "San Jose", "Heredia", "Alajuela", "Cartago", "Puntarenas", "Limón", "Guanacaste"], :selected => f.object.province), { :include_blank => "Ingrese su provincia de residencia" }, class: "form-control", autofocus: true %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Ciudad" %>
+          <%= f.text_field :city, autofocus: true, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Email *" %>
+          <%= f.email_field :email, autofocus: true, class: 'form-control', :required => true %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Contraseña *" %>
+          <%= f.password_field :password, class: 'form-control', :required => true %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Confirmación de Contraseña *" %>
+          <%= f.password_field :password_confirmation, class: 'form-control', :required => true %>
+        </div>
+        <%= f.submit "Confirmar Registro", class: 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+  <%= render 'devise/shared/links' %>
+</div>

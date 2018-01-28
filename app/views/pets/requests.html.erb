@@ -1,0 +1,13 @@
+<div class="page-header">
+  <h1>Mascotas con Solicitud de Adopción</h1>
+</div>
+
+<% if @pets && @pets.count > 0 %>
+  <%= render 'pets/petsTable', obj: @pets %>
+<% else %>
+  <p class="lead">No hay mascotas con solicitud de adopción!</p>
+<% end %>
+
+<div align="center">
+  <%= will_paginate %>
+</div>

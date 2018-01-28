@@ -1,0 +1,17 @@
+<% if Adoption.adoption_already_exists(user, pet) %>
+  <% if Adoption.adoption_status(user, pet, "returned") %>
+    <span class="label label-danger">Devolviste esta Mascota!</span>
+  <% elsif user.id == pet.user_id %>
+    <span class="label label-warning">Creaste esta Mascota!</span>
+  <% elsif Adoption.adoption_status(user, pet, "rejected") %>
+    <span class="label label-primary">La solicitud no se Completo!</span>
+  <% else %>
+    <span class="label label-primary">Ya creaste una Solicitud!</span>
+  <% end %>
+<% else %>
+  <% if user.id == pet.user_id %>
+    <span class="label label-warning">Creaste esta Mascota!</span>
+  <% else %>
+    <%= link_to "Quiero esta Mascota!",new_adoption_path(petId: pet.id), :class => 'btn btn-success' %>
+  <% end %>
+<% end %>

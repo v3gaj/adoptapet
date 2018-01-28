@@ -1,0 +1,77 @@
+<%= form_for @user, :html => { :class => "form-horizontal user col-lg-7 col-sm-offset-2" } do |f| %>
+
+  <% if @user.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label "Nombre *", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :name, :class => 'form-control', placeholder: "Ingrese su nombre...", autofocus: true, :required => true %>
+    </div>
+    <%=f.error_span(:name) %>
+  </div>
+  <div class="form-group">
+    <%= f.label "Apellido *", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :lastName, :class => 'form-control', placeholder: "Ingrese su apellido...", autofocus: true, :required => true %>
+    </div>
+    <%=f.error_span(:lastName) %>
+  </div>
+  <div class="form-group">
+    <%= f.label "Teléfono", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :phone, :class => 'form-control', placeholder: "Ingrese su teléfono...", autofocus: true %>
+    </div>
+    <%=f.error_span(:phone) %>
+  </div>
+  <div class="form-group">
+    <%= f.label "Provincia", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.select :province, options_for_select([ "San Jose", "Heredia", "Alajuela", "Cartago", "Puntarenas", "Limón", "Guanacaste"], :selected => f.object.province), { :include_blank => "Ingrese su provincia de residencia" }, class: "form-control", autofocus: true %>
+    </div>
+    <%=f.error_span(:province) %>
+  </div>
+  <div class="form-group">
+    <%= f.label "Ciudad", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :city, :class => 'form-control', placeholder: "Ingrese su ciudad de residencia...", autofocus: true %>
+    </div>
+    <%=f.error_span(:city) %>
+  </div>
+  <div class="form-group">
+    <%= f.label "Foto", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.file_field :photo, :class => 'form-control', placeholder: "Adjunte su foto...", autofocus: true %>
+    </div>
+    <%=f.error_span(:photo) %>
+  </div>
+  <% if current_user.admin? %>
+    <div class="form-group">
+      <%= f.label "Administrador", :class => 'control-label col-lg-2' %>
+      <div class="col-lg-10">
+        <%= f.check_box :admin, :class => 'check-box' %> Seleccione este check si desea convertir al usuario en administrador.
+      </div>
+      <%=f.error_span(:admin) %>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit "Guardar Cambios", :class => 'btn btn-primary' %>
+      <%= link_to "Cancelar", url_for(:back), :class => 'btn btn-default' %>
+    </div>
+  </div>
+
+<% end %>

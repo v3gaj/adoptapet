@@ -1,0 +1,23 @@
+<%- model_class = Adoption -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:user_id) %>:</strong></dt>
+  <dd><%= @adoption.user_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:pet_id) %>:</strong></dt>
+  <dd><%= @adoption.pet_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:status) %>:</strong></dt>
+  <dd><%= @adoption.status %></dd>
+</dl>
+
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              adoptions_path, :class => 'btn btn-default'  %>
+<%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_adoption_path(@adoption), :class => 'btn btn-default' %>
+<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              adoption_path(@adoption),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>

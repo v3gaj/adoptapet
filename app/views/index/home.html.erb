@@ -1,0 +1,22 @@
+<div class="home-wrapper">
+  <div class="page-header">
+    <% if @pets && @pets.count < 0 %>
+      <h1>Adóptanos!</h1>
+    <% else %>
+      <h1>No hay mascotas!</h1>
+    <% end %>
+  </div>
+
+  <div class="scroller">
+    <% @pets.each do |pet| %>
+      <div class="col-md-4 scroller-card-wrapper">
+        <div class="scroller-card">
+          <%= link_to image_tag(pet.photo.url(:large)), pet_path(pet) %>
+          <h3><%= link_to pet.name.split.map(&:capitalize).join(' '), pet_path(pet) %></h3>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+

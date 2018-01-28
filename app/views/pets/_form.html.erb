@@ -1,0 +1,132 @@
+<%= form_for @pet, :html => { :class => "form-horizontal pet col-lg-7 col-sm-offset-2" } do |f| %>
+
+  <% if @pet.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@pet.errors.count, "error") %> prohibited this pet from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @pet.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label "Nombre *", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :name, :class => 'form-control', placeholder: "Ingrese el nombre de la mascota...", autofocus: true, :required => true %>
+    </div>
+    <%=f.error_span(:name) %>
+  </div>
+  <div class="form-group">
+    <%= f.label "Especie *", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.select :category_id, options_for_select(Category.all.map{|p|[p.title, p.id]}, :selected => f.object.category_id), { :include_blank => "Ingrese la especie de la mascota..." }, class: "form-control", autofocus: true, :required => true %>
+    </div>
+    <%=f.error_span(:category_id) %>
+  </div>
+  <div class="form-group">
+    <%= f.label "Color *", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :color, :class => 'form-control', placeholder: "Ingrese el color de la mascota...", autofocus: true, :required => true %>
+    </div>
+    <%=f.error_span(:color) %>
+  </div>
+  <div class="form-group">
+    <%= f.label "Género *", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.select :gender, options_for_select([ "Macho", "Hembra"], :selected => f.object.gender), { :include_blank => "Ingrese el género de la mascota..." }, :required => true , class: "form-control", autofocus: true %>
+    </div>
+    <%=f.error_span(:gender) %>
+  </div>
+  <div class="form-group">
+    <%= f.label "Edad", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-5">
+      <%= f.number_field_tag :years, f.object.years, in: 1...100, class: "form-control", placeholder: "Años...", autofocus: true %>
+    </div>
+    <%=f.error_span(:years) %>
+    <div class="col-lg-5">
+      <%= f.number_field_tag :months, f.object.months, in: 0...12, class: "form-control", placeholder: "Meses...", autofocus: true %>
+    </div>
+    <%=f.error_span(:months) %>
+  </div>
+  <div class="form-group">
+    <%= f.label "Prioridad *", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.select :priority, options_for_select([ "Alta", "Media", "Baja"], :selected => f.object.priority), { :include_blank => "Ingrese la prioridad de adopción..." }, :required => true , class: "form-control", autofocus: true %>
+    </div>
+    <%=f.error_span(:priority) %>
+  </div>
+  <div class="form-group">
+    <%= f.label "Detalles *", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_area :description, :class => 'form-control', placeholder: "Ingrese una descripción de la mascota...", autofocus: true, rows: 8, :required => true %>
+    </div>
+    <%=f.error_span(:description) %>
+  </div>
+  <div class="form-group">
+    <%= f.label "Provincia *", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.select :province, options_for_select([ "San Jose", "Heredia", "Alajuela", "Cartago", "Puntarenas", "Limón", "Guanacaste"], :selected => f.object.province), { :include_blank => "Ingrese la provincia donde se encuentra la mascota..." }, :required => true , class: "form-control", autofocus: true %>
+    </div>
+    <%=f.error_span(:province) %>
+  </div>
+  <div class="form-group">
+    <%= f.label "Ciudad *", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :city, :class => 'form-control', placeholder: "Ingrese la ciudad donde se encuentra la mascota...", autofocus: true, :required => true %>
+    </div>
+    <%=f.error_span(:city) %>
+  </div>
+  <% if params[:controller] == 'pets' && params[:action] == 'new' %>
+    <div class="form-group">
+      <%= f.label "Foto *", :class => 'control-label col-lg-2' %>
+      <div class="col-lg-10">
+        <%= f.file_field :photo, :class => 'form-control', placeholder: "Seleccione una foto de la mascota...", autofocus: true, :required => true %>
+      </div>
+      <%=f.error_span(:photo) %>
+    </div>
+  <% end %>
+  <% if params[:controller] == 'pets' && params[:action] == 'edit' %>
+    <div class="form-group">
+      <%= f.label "Foto *", :class => 'control-label col-lg-2' %>
+      <div class="col-lg-10">
+        <%= f.file_field :photo, :class => 'form-control', placeholder: "Seleccione una foto de la mascota...", autofocus: true %>
+      </div>
+      <%=f.error_span(:photo) %>
+    </div>
+    <% if Adoption.adoption_status_exists(@pet, 'accepted') || Adoption.adoption_status_exists(@pet, 'returned') %>
+      <div class="form-group">
+        <%= f.label "Portada *", :class => 'control-label col-lg-2' %>
+        <div class="col-lg-10">
+          <%= f.file_field :cover, :class => 'form-control', placeholder: "Seleccione una foto de la mascota...", autofocus: true %>
+        </div>
+        <%=f.error_span(:cover) %>
+      </div>
+      <div class="form-group">
+        <%= f.label "Mostrar", :class => 'control-label col-lg-2' %>
+        <div class="col-lg-10">
+          <%= f.check_box :show, :class => 'check-box' %> Desactive este check si no deseas que vean tu mascota.
+        </div>
+        <%=f.error_span(:show) %>
+      </div>
+    <% end %>
+  <% end %>
+
+
+
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit(@pet.new_record? ? "Ingresar Mascota" : "Guardar Cambios", class: 'btn btn-primary') %>
+      <%= link_to "Cancelar", url_for(:back), :class => 'btn btn-default' %>
+    </div>
+  </div>
+
+<% end %>
+
+
+

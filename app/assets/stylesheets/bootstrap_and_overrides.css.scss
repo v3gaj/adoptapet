@@ -1,0 +1,126 @@
+/*
+  =require twitter-bootstrap-static/bootstrap
+
+  Static version of css will use Glyphicons sprites by default
+  =require twitter-bootstrap-static/sprites
+*/
+
+.container{
+	min-height: 370px;
+}
+
+.navbar {
+	background-color: #3097D1;
+	min-height: 80px;
+	padding-bottom: 15px;
+}
+
+.navbar-nav {
+	margin-top: 0;
+	margin-bottom: 0; 
+}
+
+.navbar-toggle,
+.navbar-brand{
+	font-size: 50px;
+	color: #fff !important;
+	border: none;
+}
+
+.navbar-toggle{
+	padding: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: 25px;
+	border-color: transparent !important;
+	top: 14px;
+
+	&:focus,
+	&:hover{
+		background-color: transparent !important;
+	}
+}
+
+.navbar-collapse{
+	border: none;
+	box-shadow: none;
+	padding-top: 15px;
+}
+
+.footer-main-menu,
+.navbar-default{
+	.nav,
+	.navbar-nav{
+		li{
+			a{
+				color: rgba(255, 255, 255, 0.5);
+				&:focus,
+				&:hover{
+					color: rgba(255, 255, 255, 0.75);
+					background-color: none !important;
+				}
+			}
+		}
+
+		.open{
+			a{
+
+				background-color: transparent !important;
+				color: #fff;
+				color: rgba(255, 255, 255, 0.5);
+
+				&:active,
+				&:visited,
+				&:focus,
+				&:hover{
+					background-color: transparent !important;
+					color: rgba(255, 255, 255, 0.75);
+				}
+			}
+		}
+	}
+	
+}
+
+.page-header {
+    margin-bottom: 40px;
+}
+
+.dropdown-menu{
+	background-color: #3097D1;
+
+	.divider{
+		background-color: rgba(0,0,0,0.15);
+	}
+}
+
+.alert {
+    margin-bottom: 40px;
+}
+
+
+@media (max-width: 767px){
+	.dropdown-menu{
+
+		li{
+			a {
+	    		color: rgba(255, 255, 255, 0.5) !important;
+
+				&:hover{
+					color: rgba(255, 255, 255, 0.75) !important;
+				}
+			}
+
+			/*Sobreescribe los links del dropdown el el tamaño 767px*/
+			.active{
+				color: white !important;
+			}
+		}
+	}
+	
+	.navbar-collapse{
+		min-width: 200px !important;
+		position: relative;
+	}
+
+}

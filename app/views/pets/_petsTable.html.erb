@@ -1,0 +1,52 @@
+<div class="pet-grid">
+  <% obj.each do |pet| %>
+    <div class="col-md-4 pet-card-wrapper">
+      <div class="pet-card">
+        <div class="pet-card-cover">
+
+          <% if pet.cover? %>
+            <%= image_tag pet.cover.url(:thumb) %>
+          <% else %>
+            <%= image_tag "pet-cover1.jpg" %>
+          <% end %>
+
+          <% if params[:controller] == 'pets' && params[:action] == 'index' %>
+            <% if pet.priority == 'Baja' %>
+              <span class="fa fa-circle green"></span>
+            <% elsif pet.priority == 'Media' %>
+              <span class="fa fa-circle yellow"></span>
+            <% elsif pet.priority == 'Alta' %>
+              <span class="fa fa-circle red"></span>
+            <% end %>
+          <% end %>
+
+          <% if pet.gender == 'Macho' %>
+            <i class="fa fa-mars"></i>
+          <% else %>
+            <i class="fa fa-venus"></i>
+          <% end %>
+        </div>
+        <div class="pet-info">
+          <%= link_to image_tag(pet.photo.url(:large)), pet_path(pet) %>
+          <h3><%= link_to pet.name.split.map(&:capitalize).join(' '), pet_path(pet) %></h3>
+          <p><%= pet.description %></p>
+
+
+          <% if params[:controller] == 'pets' && params[:action] == 'index' %>
+            <div class="pet-card-links">
+              <%= render 'pets/tableLinks', user: current_user, pet: pet  %>
+            </div>
+          <% end %>
+
+          <% if params[:controller] == 'users' && params[:action] == 'show' || 
+                params[:controller] == 'users' && params[:action] == 'profile' %>
+            <div class="pet-card-links">
+              <%= render 'pets/tableLinks', user: @user, pet: pet %>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

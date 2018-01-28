@@ -1,0 +1,23 @@
+<div class="page-header">
+  <h1>Categorías de Mascotas</h1>
+  <%= link_to new_category_path, class: 'icon-title' do %>
+    <i class="fa fa-plus-circle"></i>
+  <% end %>
+</div>
+
+<div class="category-grid">
+  <% @categories.each do |category| %>
+    <div class="category-card col-lg-6 col-sm-offset-3">
+      <h3><%= category.title %></h3>
+      <div class="category-actions">
+        <%= link_to 'Editar',
+                        edit_category_path(category), :class => 'btn btn-default btn-xs' %>
+        <%= link_to 'Eliminar',
+                    category_path(category),
+                    :method => :delete,
+                    :data => { :confirm => "Estás seguro que deseas eliminar la categoría?" },
+                    :class => 'btn btn-xs btn-danger' %>
+      </div>
+    </div>
+  <% end %>
+</div>

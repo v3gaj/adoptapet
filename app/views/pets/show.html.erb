@@ -1,0 +1,30 @@
+<% if current_user && current_user.admin? %>
+  <% if @adopters && @adopters.count > 0 %>
+    <div class="page-header">
+      <h1>Usuarios que quieren a <%= @pet.name.split.map(&:capitalize).join(' ') %></h1>
+    </div>
+    <%= render 'users/userPetAdopters', obj: @adopters %>
+  <% end %>
+<% end %>
+
+<div class="pet-cover-wrapper">
+  <div class="pet-cover">
+    <% if @pet.cover? %>
+      <%= image_tag @pet.cover.url(:large), class: 'pet-cover-img' %>
+    <% else %>
+      <%= image_tag 'pet-cover-profile.jpg', class: 'pet-cover-img' %>
+    <% end %>
+    <div class="pet-cover-profile">
+      <%= image_tag @pet.photo.url(:large) %>
+      <h1><%= @pet.name.split.map(&:capitalize).join(' ') %></h1>
+      <p><%= @pet.description %></p>
+    </div>
+    <div class="panels-links">
+      <%= link_to 'Perfil', pet_profile_path(id: @pet), remote: true %>
+      <%= link_to 'Fotos', pet_gallery_path(id: @pet), remote: true %>
+    </div>
+  </div>  
+</div>
+<div id="render-panels">
+  <%= render :template => 'pets/profile.html' %>
+</div>

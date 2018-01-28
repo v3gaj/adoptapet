@@ -1,0 +1,53 @@
+<div class="navbar navbar-default navbar-static-top">
+  <div class="col-md-10 col-md-offset-1 collapse-line-height">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <i class="fa fa-bars"></i>
+    </button>
+    <%= link_to root_path, class: "navbar-brand" do %>
+      <i class="fa fa-paw"></i>
+    <% end %>
+    <% if current_user %>
+      <%= link_to my_profile_path, class: "user-image-position" do %>
+        <% if current_user.photo? %>
+          <%= image_tag current_user.photo.url(:thumb), class: 'img-circle user-image-header' %>
+        <% else %>
+          <%= image_tag ('user.png'), class: 'img-circle user-image-header invert-color' %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% if current_user %>
+      <%= active_link_to("Cerrar Sesión", destroy_user_session_path, class: "btn btn-primary access-link", method: :delete) %>
+    <% else %>
+      <%= active_link_to "Registrarse", new_user_registration_path, class: "btn btn-primary access-link" %>
+      <%= active_link_to "Iniciar Sesión", new_user_session_path, class: "btn btn-primary access-link" %>
+    <% end %>
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
+      <ul class="nav navbar-nav">
+        <li><%= active_link_to "Inicio", root_path, active: :exclusive  %></li>
+        <li class="dropdown">
+          <%= active_link_to pets_path, { :class => 'dropdown-toggle', role: "button", 'data-toggle' => 'dropdown', 'aria-haspopup' => 'true', 'aria-expanded' => 'false'}, active: :inclusive do %>
+            Mascotas<span class="caret"></span>
+          <% end %>
+          <ul class="dropdown-menu">
+            <li><%= active_link_to "Mascotas para Adopción", pets_for_adoption_path, active: :exclusive %></li>
+            <li><%= active_link_to "Adopciones Exitosas", successful_adoptions_path, active: :exclusive %></li>
+            <li role="separator" class="divider"></li>
+            <li><%= active_link_to "Agregar Mascota", new_pet_path %></li>
+            <% if current_user && current_user.admin? %>
+              <li role="separator" class="divider"></li>
+              <li><%= active_link_to "Solicitudes de Adopción", adoption_requests_path, active: :exclusive  %></li>
+            <% end %>
+          </ul>
+        </li>
+        <% if current_user && current_user.admin? %>
+          <li><%= active_link_to "Usuarios", all_users_path, active: :inclusive  %></li>
+          <li><%= active_link_to "Solicitudes", all_adoptions_path, active: :inclusive  %></li>
+          <li><%= active_link_to "Categorias", categories_path, active: :inclusive  %></li>
+        <% end %>
+        <li><%= active_link_to "Nosotros", about_path, active: :exclusive  %></li>
+        <li><%= active_link_to "Contacto", contact_path, active: :exclusive  %></li>
+      </ul>
+    </div>
+  </div>
+</div>
+

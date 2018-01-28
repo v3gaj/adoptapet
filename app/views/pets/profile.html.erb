@@ -1,0 +1,65 @@
+<div class="pet-profile">
+  <div class="bar-profile-wrapper col-lg-3">
+    <div class="profile-bar left-bar">
+
+      <% if current_user && current_user.admin? %>
+        <% if @owner.photo? %>
+          <%= link_to image_tag(@owner.photo.url(:thumb)), user_path(@owner), class: 'profile-user-photo' %>
+        <% else %>
+          <%= link_to image_tag('user.png'), user_path(@owner), class: 'profile-user-photo' %>
+        <% end %>
+      <% end %>
+
+      <h4>Información</h4>
+
+      <% if @pet.gender == 'Macho' %>
+        <i class="fa fa-mars profile-gender"></i>
+      <% else %>
+        <i class="fa fa-venus profile-gender"></i>
+      <% end %>
+
+      <div class="pet-profile-info">
+        <ul>
+          <li><i class="fa fa-paw" aria-hidden="true"></i>Es un <strong><%= @pet.category.title %></strong></li>
+          <li><i class="fa fa-paint-brush" aria-hidden="true"></i>Es de color <strong><%= @pet.color %></strong></li>
+          <li><i class="fa fa-home" aria-hidden="true"></i>Vive en <strong><%= @pet.province %></strong></li>
+          <li><i class="fa fa-globe" aria-hidden="true"></i>Ciudad <strong><%= @pet.city %></strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar-profile-wrapper col-lg-6">
+    <div class="profile-bar">
+      <%= render :template => 'posts/index' %>
+    </div>
+  </div>
+
+  <div class="bar-profile-wrapper col-lg-3">
+    <div class="profile-bar right-bar">
+      <h4>Acciones</h4>
+      <% if current_user %>  
+        <% if Pet.owner_editor(@pet, current_user) || current_user.admin? %>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")), edit_pet_path(@pet), :class => 'btn btn-default' %>
+        <% end %>
+        <% if Adoption.delete_pet(@pet, current_user) || Adoption.delete_by_admin(@pet, current_user)%>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        pet_path(@pet),
+                        :method => 'delete',
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-danger' %>
+        <% end %>
+        <%= render 'pets/actionLinks', user: current_user, pet: @pet %> 
+        <% if !Adoption.adoption_status_exists(@pet, "accepted") %>
+          <%= render 'pets/messageLinks', user: current_user, pet: @pet %>        
+        <% else %>
+          <p>No hay mensajes.</p>  
+        <% end %>
+      <% elsif !Adoption.adoption_status_exists(@pet, "accepted") %>
+        <%= link_to "Quiero esta Mascota!", new_adoption_path(petId: @pet.id), :class => 'btn btn-success' %>
+      <% else %>
+        <p>No hay acciones disponibles</p>
+      <% end %>
+    </div>
+  </div>
+</div>
