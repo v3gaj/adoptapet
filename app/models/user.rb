@@ -25,10 +25,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_attached_file :photo, styles: { thumb: "100x100#", large: "300x300#"}
-	validates_attachment :photo,
-												size: { in: 0..3.megabytes }
-
+  has_attached_file :photo, styles: { thumb: "100x100#", large: "300x300#"}, convert_options: { thumb: "-quality 50", large: "-quality 50" }
+	validates_attachment :photo, size: { in: 0..3.megabytes }
 	validates_attachment_content_type :photo, content_type: /^image\/(jpg|jpeg|pjpeg|png|x-png|gif)$/
 
 

@@ -102,8 +102,13 @@ $(document).on('turbolinks:load', function() {
 		  ]
 		});
 	});
+
+	showContainer();
 			
 });
 
-
-
+function showContainer(){
+  setTimeout(function() {
+    $('.container').css({ opacity: "1"});
+  }, 600);
+}

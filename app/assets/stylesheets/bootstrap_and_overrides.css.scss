@@ -7,6 +7,12 @@
 
 .container{
 	min-height: 370px;
+	-webkit-transition: all 600ms linear;
+    -moz-transition: all 600ms linear;
+    -o-transition: all 600ms linear;
+    -ms-transition: all 600ms linear;
+    transition: all 600ms linear;
+    opacity: 0;
 }
 
 .navbar {

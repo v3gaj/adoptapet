@@ -1,4 +1,4 @@
-<% if Pet.owner_editor(@pet, current_user) %>
+<% if current_user && Pet.owner_editor(@pet, current_user) %>
   <%= render :template => 'photos/new' %>
 <% end %>
 
@@ -9,7 +9,7 @@
         <div class="box-img">
           <div class="overlay-pet-gallery">
             <div class="overlay_content_pet">
-              <a href="<%= photo.photo %>" rel="prettyPhoto[rel-cms-grid]"><i class="fa fa-hand-pointer-o"></i></a> 
+              <a href="<%= photo.photo.url(:normal) %>" rel="prettyPhoto[rel-cms-grid]"><i class="fa fa-hand-pointer-o"></i></a> 
             </div>
             <% if Pet.owner_editor(@pet, current_user) %>
               <%= link_to [@pet, photo], :method => :delete, data: { confirm: 'Estás seguro que deseas borra la imagen?'}, :remote => true, class: "pet-photo-delete" do %>
@@ -17,7 +17,7 @@
               <% end %>
             <% end %>
           </div>
-          <%= image_tag photo.photo, class: "lazy" %>
+          <%= image_tag photo.photo.url(:normal), class: "lazy" %>
         </div>
       </div>
     <% end %>
