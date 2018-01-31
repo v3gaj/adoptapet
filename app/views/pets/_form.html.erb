@@ -122,11 +122,8 @@
   <div class="form-group">
     <div class="col-lg-offset-2 col-lg-10">
       <%= f.submit(@pet.new_record? ? "Ingresar Mascota" : "Guardar Cambios", class: 'btn btn-primary') %>
-      <%= link_to "Cancelar", url_for(:back), :class => 'btn btn-default' %>
+      <%= link_to "Cancelar", (url_for(:back) == "http://localhost:3000/users/sign_in" ? my_profile_path : url_for(:back)), :class => 'btn btn-default' %>
     </div>
   </div>
 
 <% end %>
-
-
-

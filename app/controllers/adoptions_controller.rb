@@ -5,6 +5,9 @@ class AdoptionsController < ApplicationController
   before_action only: [:edit, :update, :destroy, :reject] do
     require_owner_or_admin(params[:userId])
   end
+  before_action only: [:new, :create] do
+    not_pet_user(params[:petId])
+  end
 
   # GET /adoptions
   # GET /adoptions.json

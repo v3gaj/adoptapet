@@ -14,6 +14,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def not_pet_user(pet_id)
+    pet = Pet.find(pet_id)
+    if current_user = pet.user_id
+      flash[:danger] = "No puedes adoptar un mascota que pusiste en adopción."
+      redirect_to pets_for_adoption_path 
+    end
+  end
+
   def pet_owner_editor
     if !Pet.owner_editor(@pet, current_user) && !current_user.admin?
       flash[:danger] = "Solo puedes editar tus propias mascotas."

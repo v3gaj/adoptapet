@@ -110,5 +110,5 @@ $(document).on('turbolinks:load', function() {
 function showContainer(){
   setTimeout(function() {
     $('.container').css({ opacity: "1"});
-  }, 600);
+  }, 500);
 }
