@@ -12,7 +12,7 @@ class MessageMailer < ApplicationMailer
 		mail(to: pet.user.email, subject: 'Perfil de la Mascota Eliminado')
 	end
 
-	def adoption_created(adoption, pet)
+	def adoption_created(adoption)
 		@adoption = adoption
 		mail(to: adoption.user.email, subject: 'Solicitud de Adopción Creada')
 	end

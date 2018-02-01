@@ -72,7 +72,8 @@ class AdoptionsController < ApplicationController
       @adoption.received = false
       respond_to do |format|
         if @adoption.save
-          MessageMailer.adoption_created(@adoption, pet).deliver_now
+          MessageMailer.adoption_created(@adoption).deliver_now
+          MessageMailer.adoption_created_owner(@adoption, pet).deliver_now
           format.html { redirect_to pet_path(pet), notice: 'La solicitud de adopción fue creada, pronto recibirá una respuesta. Gracias por su interés.' }
           format.json { render :show, status: :created, location: @adoption }
         else
