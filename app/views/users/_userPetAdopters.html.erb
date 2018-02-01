@@ -21,8 +21,8 @@
         <td><%= adopter.province %></td>
         <td><%= adopter.city %></td>
         <td><%= Adoption.get_adoption_comments(adopter, @pet) %></td>
-        <td><%= link_to "Asignar como Dueño!", adoption_path(id: @pet.id, userId: adopter.id, type: "accepted"), :class => 'btn btn-xs btn-success', method: :put %>
-            <%= link_to "Rechazar Solicitud!", adoption_path(id: @pet.id, userId: adopter.id, type: "rejected"), :class => 'btn btn-xs btn-danger', method: :put %>
+        <td><%= link_to "Asignar como Dueño!", adoption_path(petId: @pet.id, userId: adopter.id, type: "accepted"), :class => 'btn btn-xs btn-success', method: :put %>
+            <%= link_to "Rechazar Solicitud!", adoption_path(petId: @pet.id, userId: adopter.id, type: "rejected"), :class => 'btn btn-xs btn-danger', method: :put %>
         </td>
       </tr>
     <% end %>

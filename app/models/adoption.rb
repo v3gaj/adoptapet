@@ -28,6 +28,10 @@ class Adoption < ApplicationRecord
     Adoption.where(user: user, animal: pet).exists?
   end
 
+  def self.adoption_not_incomplete_exists(user, pet)
+    Adoption.where(user: user, animal: pet).where.not(status: 'incomplete').exists?
+  end
+
   def self.adoption_status(user, pet, status)
     Adoption.where(status: status, user: user, animal: pet).exists?
   end

@@ -47,15 +47,17 @@
   		<p>
         <strong>Estado de la Solicitud: </strong>
         <% if adoption.status == 'created' %>
-          <span class="label label-warning">Creada!</span>
+          <span class="label label-primary">Creada!</span>
         <% elsif adoption.status == 'rejected' %>
-          <span class="label label-primary">Rechazada!</span>
+          <span class="label label-warning">Rechazada!</span>
         <% elsif adoption.status == 'accepted' %>
           <span class="label label-success">Aceptada!</span>
         <% elsif adoption.status == 'returned' %>
           <span class="label label-danger">Retornada!</span>
         <% elsif adoption.status == 'closed' %>
           <span class="label label-default">Cerrada!</span>
+        <% elsif adoption.status == 'incomplete' %>
+          <span class="label label-info">Incompleta!</span>
         <% end %>
       </p>
       <p><strong>Mascota Recibida: </strong>

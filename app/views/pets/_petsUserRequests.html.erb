@@ -14,11 +14,11 @@
                         :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                         :class => 'btn btn-xs btn-danger' %>
 
-              <span class="label label-warning">Request was submitted!</span>
-            <% elsif Adoption.adoption_status(@user, pet, "rejected") %>
-              <span class="label label-primary">This request was rejected!</span>
+              <span class="label label-warning">Ya creaste una Solicitud!</span>
+            <% elsif Adoption.adoption_status(@user, pet, "rejected") || Adoption.adoption_status(@user, pet, "incomplete") %>
+              <span class="label label-primary">La solicitud no se completó!</span>
             <% else %>
-              <span class="label label-danger">Pet was returned!</span>
+              <span class="label label-danger">Devolviste esta Mascota!</span>
             <% end %>
           </div>      
         </div>

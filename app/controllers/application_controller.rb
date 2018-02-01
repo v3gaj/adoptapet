@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 
   def not_pet_user(pet_id)
     pet = Pet.find(pet_id)
-    if current_user = pet.user_id
+    if current_user == pet.user_id
       flash[:danger] = "No puedes adoptar un mascota que pusiste en adopción."
       redirect_to pets_for_adoption_path 
     end
@@ -39,8 +39,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def require_owner_or_admin(user_id)
-    if user_id.to_i != current_user.id && !current_user.admin?
+  def require_owner_or_admin(user_id, pet_id)
+    pet = Pet.find(pet_id)
+    if Pet.search_owner(pet) != current_user && user_id.to_i != current_user.id && !current_user.admin?
       redirect_back fallback_location: my_profile_path, notice: 'Solo puedes editar tus solicitudes de adopción'
     end
   end

@@ -3,7 +3,7 @@ class AdoptionsController < ApplicationController
   before_action :require_user, only: [:new, :create, :edit, :update, :destroy, :reject]
   before_action :require_admin, only: [:index, :show]
   before_action only: [:edit, :update, :destroy, :reject] do
-    require_owner_or_admin(params[:userId])
+    require_owner_or_admin(params[:userId], params[:petId])
   end
   before_action only: [:new, :create] do
     not_pet_user(params[:petId])
@@ -26,6 +26,8 @@ class AdoptionsController < ApplicationController
         status = 'returned'
       elsif params['data']['status'] == 'Cerrada'
         status = 'closed'
+      elsif params['data']['status'] == 'Incompleta'
+        status = 'incomplete'
       else
         status = ''
       end
@@ -59,7 +61,7 @@ class AdoptionsController < ApplicationController
   # POST /adoptions.json
   def create
     pet = Pet.find(params[:petId])
-    if Adoption.adoption_already_exists(current_user, pet)
+    if Adoption.adoption_not_incomplete_exists(current_user, pet)
       flash[:danger] = "Una solicitud de adopción con las mismas características ya fue solicitada."
       redirect_to adoptions_path
     else
@@ -70,6 +72,7 @@ class AdoptionsController < ApplicationController
       @adoption.received = false
       respond_to do |format|
         if @adoption.save
+          MessageMailer.adoption_creation(@adoption).deliver_now
           format.html { redirect_to pet_path(pet), notice: 'La solicitud de adopción fue creada, pronto recibirá una respuesta. Gracias por su interés.' }
           format.json { render :show, status: :created, location: @adoption }
         else
@@ -84,9 +87,9 @@ class AdoptionsController < ApplicationController
   # PATCH/PUT /adoptions/1
   # PATCH/PUT /adoptions/1.json
   def update
-    @adoption = find_adoption(params[:userId], params[:id])
+    @adoption = find_adoption(params[:userId], params[:petId])
     if params[:type] == 'accepted'
-      adoptions_affected_by_change(params[:userId], params[:id], 'rejected')
+      adoptions_affected_by_change(params[:userId], params[:petId], 'incomplete')
       @adoption.status = "accepted"
       notice = 'La solicitud de adopción fue aceptada, confiamos en tu criterio.'
     elsif params[:type] == 'rejected'
@@ -94,33 +97,28 @@ class AdoptionsController < ApplicationController
       notice = 'La solicitud de adopción fue rechazada, confiamos en tu criterio.'
     elsif params[:type] == 'received'
       @adoption.received = true
-      adoptions_affected_update(params[:userId], params[:id], 'closed')
+      adoptions_affected_update(params[:userId], params[:petId], 'closed')
       notice = 'Has confirmado que la mascota esta ahora en tus manos.'
     elsif params[:type] == 'keep'
-      adoptions_affected_by_change(params[:userId], params[:id], 'rejected')
+      adoptions_affected_by_change(params[:userId], params[:petId], 'incomplete')
       @adoption.status = "accepted"
       notice = 'Has confirmado que decidiste conservar la mascota.'
     end
     respond_to do |format|
       if @adoption.update(@adoption.attributes)
-        if params[:type]
-          format.html { redirect_back fallback_location: root_path, notice: notice }
-        else
-          format.html { redirect_to my_profile_path, notice: notice }
-        end
+        format.html { redirect_back fallback_location: root_path, notice: notice }
         format.json { render :show, status: :ok, location: @adoption }
       else
         format.html { render :edit }
         format.json { render json: @adoption.errors, status: :unprocessable_entity }
       end
     end
-
   end
 
   def reject
     @adoption.status = "returned"
     @adoption.rejectReason =   params[:adoption][:rejectReason]
-    adoptions_affected_by_change(params[:userId], params[:petId], 'created')
+    adoptions_affected_created(params[:userId], params[:petId], 'created')
     respond_to do |format|
       if @adoption.update(@adoption.attributes) && @adoption.valid?(:reject)
         format.html { redirect_to my_profile_path, notice: 'Has rechazado conservar las mascota, esta volvera a estar disponible para ser adoptada.' }
@@ -165,7 +163,17 @@ class AdoptionsController < ApplicationController
     def adoptions_affected_by_change(user, pet, status)
       adoptions = Adoption.where(pet_id: pet).where.not(user_id: user)
       adoptions.each do |adoption|
-        if adoption.status != 'returned' && adoption.status != 'closed'
+        if adoption.status != 'returned' && adoption.status != 'closed' && adoption.status != 'rejected'
+          adoption.status = status
+        end
+        adoption.update(adoption.attributes)
+      end
+    end
+
+    def adoptions_affected_created(user, pet, status)
+      adoptions = Adoption.where(pet_id: pet).where.not(user_id: user)
+      adoptions.each do |adoption|
+        if adoption.status != 'returned' && adoption.status != 'closed' && adoption.status != 'rejected' && adoption.created_at > 2.months.ago
           adoption.status = status
         end
         adoption.update(adoption.attributes)

@@ -1,6 +1,6 @@
 <% if Adoption.adoption_received_returned?(user, pet) %> 
   <%= link_to "Conservar Mascota",
-          adoption_path( userId: user.id, id: pet.id, type: "keep"), :method => :put, :class => 'btn btn-success',
+          adoption_path( userId: user.id, petId: pet.id, type: "keep", id: 0), :method => :put, :class => 'btn btn-success',
 			data: { confirm: "Con esta acción estas indicando que deseas conservar la mascota previamente puesta en adopción, esta seguro de que desea realizar esta acción?"} %>
 <% elsif Adoption.adoption_status(user, pet, 'accepted') %>
   <%= link_to "Devolver Mascota",
@@ -9,6 +9,6 @@
 <% end %>
 <% if Adoption.adoption_accepted_not_received?(user, pet) %>
   <%= link_to "Mascota Recibida",
-            adoption_path( userId: user.id, id: pet.id, type: "received"), :method => :put, :class => 'btn btn-success',
+            adoption_path( userId: user.id, petId: pet.id, type: "received", id: 0), :method => :put, :class => 'btn btn-success',
 			data: { confirm: "Con esta acción estas indicando que recibiste la mascota fisicamente, esta seguro de que desea realizar esta acción?"} %>
 <% end %>

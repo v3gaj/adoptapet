@@ -1,4 +1,4 @@
-<% if current_user && current_user.admin? %>
+<% if Pet.search_owner(@pet) == current_user || (current_user && current_user.admin?) %>
   <% if @adopters && @adopters.count > 0 %>
     <div class="page-header">
       <h1>Usuarios que quieren a <%= @pet.name.split.map(&:capitalize).join(' ') %></h1>

@@ -14,12 +14,13 @@ class PetsController < ApplicationController
       gender = params['data']['gender']
 
       @pets = Pet.all.where('(pets.category_id LIKE ? AND pets.priority LIKE ? AND pets.gender LIKE ?) AND (pets.id NOT IN (?) or pets.id IN (?))', "%"+category_id+"%", "%"+priority+"%", "%"+gender+"%", (Adoption.all.select(:pet_id).where("adoptions.status <> ? AND adoptions.status <> ?", 'created', 'returned')), 
-          (Adoption.all.select(:pet_id).where("adoptions.status = ? AND adoptions.pet_id NOT IN (?)", 'rejected', (Adoption.all.select(:pet_id).where("adoptions.status = ? OR adoptions.status = ?", 'accepted', 'returned'))))).order(created_at: :desc)
+          (Adoption.all.select(:pet_id).where("adoptions.status = ? AND adoptions.pet_id NOT IN (?)", 'rejected', (Adoption.all.select(:pet_id).where("adoptions.status = ?", 'accepted'))))).order(created_at: :desc)
       @pets.count < 1 ? @search_results = 0 : @search_results = @pets.count
       @pets = @pets.paginate(page: params[:page], per_page: 12)
     else
       @pets = Pet.all.where('pets.id NOT IN (?) or pets.id IN (?)', (Adoption.all.select(:pet_id).where("adoptions.status <> ? AND adoptions.status <> ?", 'created', 'returned')), 
-            (Adoption.all.select(:pet_id).where("adoptions.status = ? AND adoptions.pet_id NOT IN (?)", 'rejected', (Adoption.all.select(:pet_id).where("adoptions.status = ? OR adoptions.status = ?", 'accepted', 'returned'))))).order(created_at: :desc)
+            (Adoption.all.select(:pet_id).where("adoptions.status = ? AND adoptions.pet_id NOT IN (?)", 'rejected', (Adoption.all.select(:pet_id).where("adoptions.status = ?", 'accepted'))))).order(created_at: :desc)
+      
       @pets = @pets.paginate(page: params[:page], per_page: 12)
     end
 
