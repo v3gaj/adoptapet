@@ -90,7 +90,7 @@ class PetsController < ApplicationController
     @pet.show = true
     respond_to do |format|
       if @pet.save
-        MessageMailer.pet_creation(@pet).deliver_now
+        MessageMailer.pet_created(@pet).deliver_now
         format.html { redirect_to @pet, notice: 'La mascota fue ingresada exitosamente.' }
         format.json { render :show, status: :created, location: @pet }
       else
@@ -120,6 +120,7 @@ class PetsController < ApplicationController
     if Adoption.delete_pet(@pet, current_user) || Adoption.delete_by_admin(@pet, current_user)
       @pet.destroy
       respond_to do |format|
+        MessageMailer.pet_deleted(@pet).deliver_now
         format.html { redirect_to my_profile_path, notice: 'La información de la mascota se elimino exitosamente.' }
         format.json { head :no_content }
       end

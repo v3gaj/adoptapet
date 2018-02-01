@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+		<style type="text/css">
+			.round-image {border-radius: 100%;}
+		</style>
+	</head>
+	<body>
+		<h1>@adoption.user ha creado una solicitud para ser el dueño de <%= @adoption.animal.name %>!</h1>
+
+		<%= image_tag @adoption.animal.photo.url(:large), class: 'round-image' %>
+
+		<p>Puedes revisar la información en el perfil de la mascota. Haciendo click <%= link_to 'aqui', pet_path(@adoption.animal) %></p>
+
+		<p>Asegúrate de enviarle una pronta respuesta.</p>
+
+		<%= image_tag 'image-dog.png' %>
+	</body>
+</html>

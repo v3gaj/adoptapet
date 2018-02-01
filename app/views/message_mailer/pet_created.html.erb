@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+		<style type="text/css">
+			.round-image {border-radius: 100%;}
+		</style>
+	</head>
+	<body>
+		<h1>Has ingresado a <%= @pet.name %>!</h1>
+
+		<%= image_tag @pet.photo.url(:large), class: 'round-image' %>
+
+		<p>La mascota fue ingresada con exito para su adopción.</p>
+
+		<p>Pronto recibirá notificaciones sobre los interesados en ella.</p>
+
+		<%= image_tag 'image-dog.png' %>
+	</body>
+</html>
+
+

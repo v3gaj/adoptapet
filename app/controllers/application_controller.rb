@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 
   def not_pet_user(pet_id)
     pet = Pet.find(pet_id)
-    if current_user == pet.user_id
+    if current_user == pet.user
       flash[:danger] = "No puedes adoptar un mascota que pusiste en adopción."
       redirect_to pets_for_adoption_path 
     end
