@@ -89,6 +89,7 @@ class PetsController < ApplicationController
     @pet.show = true
     respond_to do |format|
       if @pet.save
+        MessageMailer.pet_creation(@pet).deliver_now
         format.html { redirect_to @pet, notice: 'La mascota fue ingresada exitosamente.' }
         format.json { render :show, status: :created, location: @pet }
       else
