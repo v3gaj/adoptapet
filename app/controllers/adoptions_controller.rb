@@ -88,8 +88,10 @@ class AdoptionsController < ApplicationController
   # PATCH/PUT /adoptions/1
   # PATCH/PUT /adoptions/1.json
   def update
+    pet = Pet.find(params[:petId])
     @adoption = find_adoption(params[:userId], params[:petId])
     if params[:type] == 'accepted'
+      owner = Pet.search_owner(pet) # Required to send emails
       adoptions_affected_by_change(params[:userId], params[:petId], 'incomplete')
       @adoption.status = "accepted"
       notice = 'La solicitud de adopción fue aceptada, confiamos en tu criterio.'
@@ -107,6 +109,16 @@ class AdoptionsController < ApplicationController
     end
     respond_to do |format|
       if @adoption.update(@adoption.attributes)
+        if params[:type] == 'accepted'
+          MessageMailer.adoption_accepted(@adoption, owner).deliver_now
+          MessageMailer.adoption_accepted_owner(@adoption, owner).deliver_now
+        elsif params[:type] == 'rejected'
+          MessageMailer.adoption_rejected(@adoption).deliver_now
+        elsif params[:type] == 'received'
+          MessageMailer.adoption_received(@adoption).deliver_now
+        elsif params[:type] == 'keep'
+           MessageMailer.adoption_keep(@adoption).deliver_now
+        end
         format.html { redirect_back fallback_location: root_path, notice: notice }
         format.json { render :show, status: :ok, location: @adoption }
       else
@@ -120,8 +132,13 @@ class AdoptionsController < ApplicationController
     @adoption.status = "returned"
     @adoption.rejectReason =   params[:adoption][:rejectReason]
     adoptions_affected_created(params[:userId], params[:petId], 'created')
+    owner = Pet.search_owner(pet) # Required to send emails
     respond_to do |format|
       if @adoption.update(@adoption.attributes) && @adoption.valid?(:reject)
+        MessageMailer.adoption_returned(@adoption).deliver_now
+        if owner != @adoption.user # if the owner has received the pet he will be the actual owner
+          MessageMailer.adoption_returned_owner(@adoption, owner).deliver_now
+        end
         format.html { redirect_to my_profile_path, notice: 'Has rechazado conservar las mascota, esta volvera a estar disponible para ser adoptada.' }
         format.json { render :show, status: :ok, location: @adoption }
       else
@@ -134,10 +151,13 @@ class AdoptionsController < ApplicationController
   # DELETE /adoptions/1
   # DELETE /adoptions/1.json
   def destroy
-    @adoption = Adoption.where(user_id: params[:userId], pet_id: params[:id]).first
+    @adoption = Adoption.where(user_id: params[:userId], pet_id: params[:petId]).first
+    pet = Pet.find(params[:petId])
     if @adoption.status == "created"
       @adoption.destroy
       respond_to do |format|
+        MessageMailer.adoption_deleted(@adoption).deliver_now
+        MessageMailer.adoption_deleted_owner(@adoption, pet).deliver_now
         format.html { redirect_to my_profile_path, notice: 'La solicitud de adopción se eliminó exitosamente.' }
         format.json { head :no_content }
       end
@@ -166,6 +186,7 @@ class AdoptionsController < ApplicationController
       adoptions.each do |adoption|
         if adoption.status != 'returned' && adoption.status != 'closed' && adoption.status != 'rejected'
           adoption.status = status
+          MessageMailer.adoption_rejected(@adoption).deliver_now
         end
         adoption.update(adoption.attributes)
       end
@@ -176,6 +197,7 @@ class AdoptionsController < ApplicationController
       adoptions.each do |adoption|
         if adoption.status != 'returned' && adoption.status != 'closed' && adoption.status != 'rejected' && adoption.created_at > 2.months.ago
           adoption.status = status
+          MessageMailer.adoption_reactivated(@adoption).deliver_now
         end
         adoption.update(adoption.attributes)
       end

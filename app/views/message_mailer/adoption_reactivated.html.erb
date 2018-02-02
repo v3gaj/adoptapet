@@ -11,13 +11,11 @@
 		</style>
 	</head>
 	<body>
-		<h1>Has creado una solicitud para ser el dueño de <%= @adoption.animal.name %>!</h1>
+		<h1>La solicitud para ser el dueño de <%= @adoption.animal.name %> se ha reactivado!</h1>
 
 		<%= image_tag @adoption.animal.photo.url(:large), class: 'round-image' %>
 
-		<p>La solicitud fue creada con éxito.</p>
-
-		<p>Pronto recibirás una respuesta.</p>
+		<p>La solicitud fue reactivada con éxito, esto se dio ya que el dueño decidio no conservar la mascota.</p>
 
 		<p>En caso que desees cancelar la solicitud accede a tu perfil, haciendo click <%= link_to 'aqui', my_profile_url	%>.</p>
 

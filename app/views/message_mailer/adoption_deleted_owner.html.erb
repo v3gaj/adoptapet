@@ -11,16 +11,14 @@
 		</style>
 	</head>
 	<body>
-		<h1>Has ingresado a <%= @pet.name %>!</h1>
+		<h1><%= @adoption.user.full_name %> ha eliminado la solicitud para ser el dueño de <%= @adoption.animal.name %>!</h1>
 
-		<%= image_tag @pet.photo.url(:large), class: 'round-image' %>
+		<%= image_tag @adoption.animal.photo.url(:large), class: 'round-image' %>
 
-		<p>La mascota fue ingresada con éxito para su adopción.</p>
+		<p>Lamentamos comunicarte que una solicitud para adoptar a tu mascota fue eliminada.</p>
 
-		<p>Pronto recibirá notificaciones sobre los interesados en ella.</p>
+		<p>No te preocupes, pronto recibirás más solicitudes.</p>
 
 		<%= image_tag 'image-mailer.png' %>
 	</body>
 </html>
-
-

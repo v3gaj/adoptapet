@@ -9,7 +9,7 @@
           <div>
             <% if Adoption.adoption_status(@user, pet, "created") %>
               <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                        adoption_path(userId: @user.id, id: pet.id),
+                        adoption_path(userId: @user.id, petId: pet.id, id: 0),
                         :method => :delete,
                         :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                         :class => 'btn btn-xs btn-danger' %>

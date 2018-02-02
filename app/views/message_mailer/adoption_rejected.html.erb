@@ -11,15 +11,13 @@
 		</style>
 	</head>
 	<body>
-		<h1>Has creado una solicitud para ser el dueño de <%= @adoption.animal.name %>!</h1>
+		<h1>Lo sentimos, la solicitud para ser el dueño de <%= @adoption.animal.name %> no se pudo completar!</h1>
 
 		<%= image_tag @adoption.animal.photo.url(:large), class: 'round-image' %>
 
-		<p>La solicitud fue creada con éxito.</p>
+		<p>La solicitud no se pudo completar debido a que otra persona fue asignada como dueño de la mascota.</p>
 
-		<p>Pronto recibirás una respuesta.</p>
-
-		<p>En caso que desees cancelar la solicitud accede a tu perfil, haciendo click <%= link_to 'aqui', my_profile_url	%>.</p>
+		<p>En caso que desees aplicar para ser el dueño de una mascota puedes hacer click <%= link_to 'aqui', pets_for_adoption_url %>.</p>
 
 		<%= image_tag 'image-mailer.png' %>
 	</body>

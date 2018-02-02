@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+		<style type="text/css">
+			.round-image {border-radius: 100%;     
+										border: 3px solid #fff;
+    								box-shadow: 0 1px 1px rgba(0,0,0,0.5);
+    								width: 200px;
+    								}
+		</style>
+	</head>
+	<body>
+		<h1>Felicidades tienes una nueva mascota!!!</h1>
+		<h1>Has sido escogido para ser el nuevo dueño de <%= @adoption.animal.name %>!</h1>
+
+		<%= image_tag @adoption.animal.photo.url(:large), class: 'round-image' %>
+
+		<p>La solicitud fue aceptada con éxito.</p>
+
+		<p>Ponte en contacto con el actual dueño de <%= @adoption.animal.name %>.</p>
+		<p>La siguiente es la información para que los contactes:</p>
+		<p>Nombre: <%= @owner.full_name %></p>
+		<p>Email: <%= @owner.email %></p>
+		<p>Teléfono: <%= @owner.phone %></p>
+
+		<p>Podras ver el perfil de tu nuevo compañero accediendo a tu perfil, haciendo click <%= link_to 'aqui', my_profile_url	%>.</p>
+
+		<p>Tendras habilitado un botón en verde con la etiqueta "Mascota Recibida", dicho botón es para que confirmes cuando recibas a tu nuevo compañero fisicamente, lo cual te dará la posibilidad de editar su perfil.</p>
+
+		<p>La idea de esta red es motivar la adopción por medio del ejemplo, por lo cual te solicitamos actualizar el perfil de tu mascota regularmente para que otros puedan ver el beneficio mutuo de la adopción</p>
+
+		<p>Te agradecemos mucho el interés en esta red y en la adopción responsable de mascotas.</p>
+
+		<%= image_tag 'image-mailer.png' %>
+	</body>
+</html>
