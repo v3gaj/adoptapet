@@ -11,7 +11,7 @@
 
 		<%= image_tag @adoption.animal.photo.url(:large), class: 'round-image' %>
 
-		<p>Puedes revisar la información en el perfil de la mascota. Haciendo click <%= link_to 'aqui', pet_path(@adoption.animal) %></p>
+		<p>Puedes revisar la información en el perfil de la mascota. Haciendo click <%= link_to 'aqui', pet_url(@adoption.animal) %></p>
 
 		<p>Asegúrate de enviarle una pronta respuesta.</p>
 

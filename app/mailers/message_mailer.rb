@@ -1,4 +1,5 @@
 class MessageMailer < ApplicationMailer
+	include Rails.application.routes.url_helpers
 
 	default from: "webcontact@caffora.cafe"
 
