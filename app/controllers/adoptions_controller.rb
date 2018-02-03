@@ -129,12 +129,13 @@ class AdoptionsController < ApplicationController
   end
 
   def reject
+    pet = Pet.find(params[:petId])
     @adoption.status = "returned"
     @adoption.rejectReason =   params[:adoption][:rejectReason]
     adoptions_affected_created(params[:userId], params[:petId], 'created')
-    owner = Pet.search_owner(pet) # Required to send emails
     respond_to do |format|
       if @adoption.update(@adoption.attributes) && @adoption.valid?(:reject)
+        owner = Pet.search_owner(pet) # Required to send emails
         MessageMailer.adoption_returned(@adoption).deliver_now
         if owner != @adoption.user # if the owner has received the pet he will be the actual owner
           MessageMailer.adoption_returned_owner(@adoption, owner).deliver_now

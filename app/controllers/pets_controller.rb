@@ -118,6 +118,7 @@ class PetsController < ApplicationController
   # DELETE /pets/1.json
   def destroy
     if Adoption.delete_pet(@pet, current_user) || Adoption.delete_by_admin(@pet, current_user)
+      close_all_adoption_requests(@pet)
       @pet.destroy
       respond_to do |format|
         MessageMailer.pet_deleted(@pet).deliver_now
@@ -138,6 +139,17 @@ class PetsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def pet_params
       params.require(:pet).permit(:name, :photo, :category_id, :color, :gender, :years, :province, :city ,:months, :priority, :show, :cover, :description, :user_id)
+    end
+
+    def close_all_adoption_requests(pet)
+      adoptions = Adoption.where(pet_id: pet)
+      adoptions.each do |adoption|
+        if adoption.status != 'rejected'
+          adoption.status = 'incomplete'
+          MessageMailer.adoption_rejected(adoption).deliver_now
+        end
+        adoption.update(adoption.attributes)
+      end
     end
 
 

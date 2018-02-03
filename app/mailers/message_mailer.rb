@@ -58,7 +58,6 @@ class MessageMailer < ApplicationMailer
 	end
 
 	def adoption_returned_owner(adoption, owner)
-		owner = Pet.search_owner(pet)
 		@adoption = adoption
 		mail(to: owner.email, subject: 'Mascota Retornada al Proceso de Adopción')
 	end
