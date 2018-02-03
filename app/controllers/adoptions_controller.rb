@@ -53,27 +53,27 @@ class AdoptionsController < ApplicationController
 
   # GET /adoptions/1/edit
   def edit
-    user = Pet.owner_admin(pet, current_user)
+    user = Pet.owner_admin( @pet, current_user)
     @adoption = Adoption.where(user: user, animal: params[:petId]).first
   end
 
   # POST /adoptions
   # POST /adoptions.json
   def create
-    if Adoption.adoption_not_incomplete_exists(current_user, pet)
+    if Adoption.adoption_not_incomplete_exists(current_user, @pet)
       flash[:danger] = "Una solicitud de adopción con las mismas características ya fue solicitada."
       redirect_to adoptions_path
     else
       @adoption = Adoption.new(adoption_params)
       @adoption.user = current_user
-      @adoption.animal = pet
+      @adoption.animal = @pet
       @adoption.status = "created"
       @adoption.received = false
       respond_to do |format|
         if @adoption.save
           MessageMailer.adoption_created(@adoption).deliver_now
-          MessageMailer.adoption_created_owner(@adoption, pet).deliver_now
-          format.html { redirect_to pet_path(pet), notice: 'La solicitud de adopción fue creada, pronto recibirá una respuesta. Gracias por su interés.' }
+          MessageMailer.adoption_created_owner(@adoption, @pet).deliver_now
+          format.html { redirect_to pet_path(@pet), notice: 'La solicitud de adopción fue creada, pronto recibirá una respuesta. Gracias por su interés.' }
           format.json { render :show, status: :created, location: @adoption }
         else
           format.html { render :new }
@@ -89,7 +89,7 @@ class AdoptionsController < ApplicationController
   def update
     @adoption = find_adoption(params[:userId], params[:petId])
     if params[:type] == 'accepted'
-      owner = Pet.search_owner(pet) # Required to send emails
+      owner = Pet.search_owner(@pet) # Required to send emails
       adoptions_affected_by_change(params[:userId], params[:petId], 'incomplete')
       @adoption.status = "accepted"
       notice = 'La solicitud de adopción fue aceptada, confiamos en tu criterio.'
@@ -132,7 +132,7 @@ class AdoptionsController < ApplicationController
     adoptions_affected_created(params[:userId], params[:petId], 'created')
     respond_to do |format|
       if @adoption.update(@adoption.attributes) && @adoption.valid?(:reject)
-        owner = Pet.search_owner(pet) # Required to send emails
+        owner = Pet.search_owner(@pet) # Required to send emails
         MessageMailer.adoption_returned(@adoption).deliver_now
         if owner != @adoption.user # if the owner has received the pet he will be the actual owner
           MessageMailer.adoption_returned_owner(@adoption, owner).deliver_now
@@ -154,7 +154,7 @@ class AdoptionsController < ApplicationController
       @adoption.destroy
       respond_to do |format|
         MessageMailer.adoption_deleted(@adoption).deliver_now
-        MessageMailer.adoption_deleted_owner(@adoption, pet).deliver_now
+        MessageMailer.adoption_deleted_owner(@adoption, @pet).deliver_now
         format.html { redirect_to my_profile_path, notice: 'La solicitud de adopción se eliminó exitosamente.' }
         format.json { head :no_content }
       end
@@ -170,7 +170,7 @@ class AdoptionsController < ApplicationController
     end
 
     def set_pet
-      pet = Pet.find(params[:petId])
+      @pet = Pet.find(params[:petId])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
