@@ -52,8 +52,7 @@
         <%= render 'pets/actionLinks', user: current_user, pet: @pet %> 
         <% if !Adoption.adoption_status_exists(@pet, "accepted") %>
           <%= render 'pets/messageLinks', user: current_user, pet: @pet %>        
-        <% else %>
-          <p>No hay mensajes.</p>  
+
         <% end %>
       <% elsif !Adoption.adoption_status_exists(@pet, "accepted") %>
         <%= link_to "Quiero esta Mascota!", new_adoption_path(petId: @pet.id), :class => 'btn btn-success' %>

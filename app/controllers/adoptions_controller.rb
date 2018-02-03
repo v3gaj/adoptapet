@@ -1,4 +1,5 @@
 class AdoptionsController < ApplicationController
+  before_action :set_pet, only: [:edit, :create, :update, :destroy, :reject]
   before_action :set_adoption, only: [:show, :reject]
   before_action :require_user, only: [:new, :create, :edit, :update, :destroy, :reject]
   before_action :require_admin, only: [:index, :show]
@@ -52,7 +53,6 @@ class AdoptionsController < ApplicationController
 
   # GET /adoptions/1/edit
   def edit
-    pet = Pet.find(params[:petId])
     user = Pet.owner_admin(pet, current_user)
     @adoption = Adoption.where(user: user, animal: params[:petId]).first
   end
@@ -60,7 +60,6 @@ class AdoptionsController < ApplicationController
   # POST /adoptions
   # POST /adoptions.json
   def create
-    pet = Pet.find(params[:petId])
     if Adoption.adoption_not_incomplete_exists(current_user, pet)
       flash[:danger] = "Una solicitud de adopción con las mismas características ya fue solicitada."
       redirect_to adoptions_path
@@ -88,7 +87,6 @@ class AdoptionsController < ApplicationController
   # PATCH/PUT /adoptions/1
   # PATCH/PUT /adoptions/1.json
   def update
-    pet = Pet.find(params[:petId])
     @adoption = find_adoption(params[:userId], params[:petId])
     if params[:type] == 'accepted'
       owner = Pet.search_owner(pet) # Required to send emails
@@ -129,7 +127,6 @@ class AdoptionsController < ApplicationController
   end
 
   def reject
-    pet = Pet.find(params[:petId])
     @adoption.status = "returned"
     @adoption.rejectReason =   params[:adoption][:rejectReason]
     adoptions_affected_created(params[:userId], params[:petId], 'created')
@@ -153,7 +150,6 @@ class AdoptionsController < ApplicationController
   # DELETE /adoptions/1.json
   def destroy
     @adoption = Adoption.where(user_id: params[:userId], pet_id: params[:petId]).first
-    pet = Pet.find(params[:petId])
     if @adoption.status == "created"
       @adoption.destroy
       respond_to do |format|
@@ -171,6 +167,10 @@ class AdoptionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_adoption
       @adoption = Adoption.find(params[:id])
+    end
+
+    def set_pet
+      pet = Pet.find(params[:petId])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
