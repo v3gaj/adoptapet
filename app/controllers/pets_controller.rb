@@ -91,7 +91,7 @@ class PetsController < ApplicationController
     respond_to do |format|
       if @pet.save
         MessageMailer.pet_created(@pet).deliver_now
-        facebook_post(@pet.name, @pet.description)
+        facebook_create_post(@pet.name, @pet.description)
         format.html { redirect_to @pet, notice: 'La mascota fue ingresada exitosamente.' }
         format.json { render :show, status: :created, location: @pet }
       else
@@ -153,13 +153,9 @@ class PetsController < ApplicationController
       end
     end
 
-    def facebook_post(name, description)
-      @graph = Koala::Facebook::API.new('EAACEdEose0cBAG8O3ZBygUIFjNMc4BGj8CBOfaSZBUk2DaWhxpmJ7tSJC7WlZBZBZBcMcGIyLoCeVhZBJnvYYilOnOGbsxxHHrHahaj84UDU9NPWxFYAsETMwKYvWf3F5lSL6sL948JKnXEMWKhaHcBlw6nSlllMhWo5yubrnoND0N3WPwrCvlUDAyD8XcIHkmUZAlTpPOMlgZDZD')
-      @graph.put_wall_post("New Pet!", {
-        name: name, 
-        description: description, 
-        caption: name,
-        picture: "http://tripcustomizers.com/system/pets/photos/000/000/006/original/6.jpg", 
+    def facebook_create_post(name, description)
+      @graph = Koala::Facebook::API.new('EAACEdEose0cBADPogLILu4YRsWXu5gbcfGokZAvwDTtTl6liAMUzZCn803Tm0RzrBHSv0x1OrPpnEqFS4lIslj5nJzb8e13JuiarsVJVWrx1TWDHB8y6fasSRI68ZA1q8Ss4nKMko4xJFccdUUKr68ZAxjnaY0DJgXqv8NsagCqn2vR1GstbPkikV9vCy8AVEQ9J9hTZCzAZDZD')
+      @graph.put_wall_post("Adopta esta mascota!", {
         link: "http://tripcustomizers.com/pets/lucas"
       })
     end
