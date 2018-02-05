@@ -154,7 +154,7 @@ class PetsController < ApplicationController
     end
 
     def facebook_post(name, description)
-      @graph = Koala::Facebook::API.new('EAACEdEose0cBAECFsnsdFi3nShqZB1jSlVyhnOVAu3sZCqLHRHCiXrZBB7DSZBS8w1HjjXzvmXtbMZBC1dTovNOvZATZB3uDPQb1KK14P7ib0q0H2ZCpIcLUPumJcaZA8TrDePXIOXMZCZBtmFitV0y3AiiAIW2lQ5iPl1jMp8IctKCRVeJklRWIwxyOjSyzrmZBkjDppIlVX5QgWgZDZD')
+      @graph = Koala::Facebook::API.new('EAACEdEose0cBAG8O3ZBygUIFjNMc4BGj8CBOfaSZBUk2DaWhxpmJ7tSJC7WlZBZBZBcMcGIyLoCeVhZBJnvYYilOnOGbsxxHHrHahaj84UDU9NPWxFYAsETMwKYvWf3F5lSL6sL948JKnXEMWKhaHcBlw6nSlllMhWo5yubrnoND0N3WPwrCvlUDAyD8XcIHkmUZAlTpPOMlgZDZD')
       @graph.put_wall_post("New Pet!", {
         name: name, 
         description: description, 
