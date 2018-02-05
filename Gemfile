@@ -49,6 +49,7 @@ gem 'will_paginate', '3.1.5'
 gem 'bootstrap-will_paginate', '0.0.10'
 gem 'jquery-slick-rails'
 gem 'koala'
+gem 'meta-tags'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

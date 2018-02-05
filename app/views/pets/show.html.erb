@@ -17,8 +17,8 @@
     <% end %>
     <div class="pet-cover-profile">
       <%= image_tag @pet.photo.url(:large) %>
-      <h1><%= @pet.name.split.map(&:capitalize).join(' ') %></h1>
-      <p><%= @pet.description %></p>
+      <h1><%= title  @pet.name.split.map(&:capitalize).join(' ') %></h1>
+      <p><%= description @pet.description %></p>
     </div>
     <div class="panels-links">
       <%= link_to 'Perfil', pet_profile_path(id: @pet), remote: true %>
