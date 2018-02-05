@@ -91,6 +91,7 @@ class PetsController < ApplicationController
     respond_to do |format|
       if @pet.save
         MessageMailer.pet_created(@pet).deliver_now
+        facebook_post(@pet.name, @pet.description)
         format.html { redirect_to @pet, notice: 'La mascota fue ingresada exitosamente.' }
         format.json { render :show, status: :created, location: @pet }
       else
@@ -150,6 +151,17 @@ class PetsController < ApplicationController
         end
         adoption.update(adoption.attributes)
       end
+    end
+
+    def facebook_post(name, description)
+      @graph = Koala::Facebook::API.new('EAACEdEose0cBAECFsnsdFi3nShqZB1jSlVyhnOVAu3sZCqLHRHCiXrZBB7DSZBS8w1HjjXzvmXtbMZBC1dTovNOvZATZB3uDPQb1KK14P7ib0q0H2ZCpIcLUPumJcaZA8TrDePXIOXMZCZBtmFitV0y3AiiAIW2lQ5iPl1jMp8IctKCRVeJklRWIwxyOjSyzrmZBkjDppIlVX5QgWgZDZD')
+      @graph.put_wall_post("New Pet!", {
+        name: name, 
+        description: description, 
+        caption: name,
+        picture: "http://tripcustomizers.com/system/pets/photos/000/000/006/original/6.jpg", 
+        link: "http://tripcustomizers.com/pets/lucas"
+      })
     end
 
 

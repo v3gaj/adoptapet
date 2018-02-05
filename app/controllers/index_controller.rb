@@ -5,6 +5,12 @@ class IndexController < ApplicationController
   end
 
   def about
+  	
+  	#@graph.get_connection(100001156528021, 'feed')
+  	#@graph.put_connections(100001156528021, 'feed', :message => 'message')
+  	fcsdcsd
+  	#@graph.put_wall_post(message: 'post on page wall')
+  	#page = @graph.get_page_access_token(1930291580543046)
   end
 
   def contact
