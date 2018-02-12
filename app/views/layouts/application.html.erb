@@ -8,9 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="turbolinks-cache-control" content="no-preview">
     <% if @pet %>
-      <meta property="og:image" content="http://tripcustomizers.com/<%= @pet.photo %>">
-      <meta property="og:image:width" content="476">
-      <meta property="og:image:height" content="476">
+      <meta property="og:image" content="http://tripcustomizers.com/<%= @pet.photo.url(:large) %>">
     <% end %>
 
     <%= stylesheet_link_tag "application", :media => "all" %>
