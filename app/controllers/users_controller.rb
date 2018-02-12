@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   def show
     @myPets = @user.animals.joins(:adoptions).where("adoptions.status = ?", 'accepted').or(@user.animals.joins(:adoptions).where("adoptions.status = ? AND adoptions.received = ?", 'returned', true )).uniq
     @requests = @user.animals.joins(:adoptions).where("adoptions.status != 'accepted'").uniq
-    @adoptions = @user.pets
+    @adoptions = @user.pets.where("pets.deleted = false")
 
     @myPets = @myPets.paginate(page: params[:myPets_page], per_page: 9)
     @requests = @requests.paginate(page: params[:requests_page], per_page: 12)
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
     @user = current_user
     @myPets = @user.animals.joins(:adoptions).where("adoptions.status = ?", 'accepted').or(@user.animals.joins(:adoptions).where("adoptions.status = ? AND adoptions.received = ?", 'returned', true )).uniq
     @requests = @user.animals.joins(:adoptions).where("adoptions.status != 'accepted'").uniq
-    @adoptions = @user.pets
+    @adoptions = @user.pets.where("pets.deleted = false")
 
     @myPets = @myPets.paginate(page: params[:myPets_page], per_page: 9)
     @requests = @requests.paginate(page: params[:requests_page], per_page: 12)

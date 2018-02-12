@@ -1,4 +1,4 @@
-<% if current_user && Pet.owner_editor(@pet, current_user) %>
+<% if current_user && (current_user.admin? || Pet.owner_editor(@pet, current_user))  %>
   <%= render :template => 'photos/new' %>
 <% end %>
 

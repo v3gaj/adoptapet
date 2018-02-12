@@ -1,5 +1,5 @@
 class AdoptionsController < ApplicationController
-  before_action :set_pet, only: [:edit, :create, :update, :destroy, :reject]
+  before_action :set_pet, only: [:new, :show, :edit, :create, :update, :destroy, :reject]
   before_action :set_adoption, only: [:show, :reject]
   before_action :require_user, only: [:new, :create, :edit, :update, :destroy, :reject]
   before_action :require_admin, only: [:index, :show]
@@ -9,6 +9,10 @@ class AdoptionsController < ApplicationController
   before_action only: [:new, :create] do
     not_pet_user(params[:petId])
   end
+  before_action only: [:new, :create, :edit] do
+    pet_deleted(@pet)
+  end
+
 
   # GET /adoptions
   # GET /adoptions.json
@@ -44,11 +48,12 @@ class AdoptionsController < ApplicationController
   # GET /adoptions/1
   # GET /adoptions/1.json
   def show
+
   end
 
   # GET /adoptions/new
   def new
-    @adoption = Adoption.new
+      @adoption = Adoption.new
   end
 
   # GET /adoptions/1/edit
@@ -62,8 +67,8 @@ class AdoptionsController < ApplicationController
   def create
     if Adoption.adoption_not_incomplete_exists(current_user, @pet)
       flash[:danger] = "Una solicitud de adopción con las mismas características ya fue solicitada."
-      redirect_to adoptions_path
-    else
+      redirect_back fallback_location: root_path
+    else  
       @adoption = Adoption.new(adoption_params)
       @adoption.user = current_user
       @adoption.animal = @pet
@@ -211,6 +216,13 @@ class AdoptionsController < ApplicationController
           adoption.status = status
         end
         adoption.update(adoption.attributes)
+      end
+    end
+
+    def pet_deleted(pet)
+      if @pet.deleted == true
+        flash[:danger] = "La mascota no existe."
+        redirect_back fallback_location: my_profile_path
       end
     end
 end

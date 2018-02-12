@@ -35,6 +35,9 @@ Rails.application.routes.draw do
   get 'pets/adoption/succesful', to: 'pets#adoptions', as: 'successful_adoptions'
   post 'pets/adoption/succesful', to: 'pets#adoptions'
 
+
+  patch 'pet_delete', to: 'pets#delete'
+
   patch 'reject', to: 'adoptions#reject'
 
   get 'redirection_back', to: 'application#redirection_back'

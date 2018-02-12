@@ -30,11 +30,11 @@
     <%=f.error_span(:category_id) %>
   </div>
   <div class="form-group">
-    <%= f.label "Color *", :class => 'control-label col-lg-2' %>
+    <%= f.label "Tamaño *", :class => 'control-label col-lg-2' %>
     <div class="col-lg-10">
-      <%= f.text_field :color, :class => 'form-control', placeholder: "Ingrese el color de la mascota...", autofocus: true, :required => true %>
+      <%= f.select :size, options_for_select([ "Pequeño", "Mediano", "Grande"], :selected => f.object.priority), { :include_blank => "Indique el tamaño que tiene o tendrá la mascota en su adultez..." }, :required => true , class: "form-control", autofocus: true %>
     </div>
-    <%=f.error_span(:color) %>
+    <%=f.error_span(:size) %>
   </div>
   <div class="form-group">
     <%= f.label "Género *", :class => 'control-label col-lg-2' %>

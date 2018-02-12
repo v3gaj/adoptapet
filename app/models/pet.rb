@@ -21,7 +21,7 @@ class Pet < ApplicationRecord
   # VALIDATIONS #
 
   validates :name, presence: true
-  validates :color, presence: true
+  validates :size, presence: true
   validates :gender, presence: true
   validates :description, presence: true
   validates :province, presence: true
@@ -38,8 +38,7 @@ class Pet < ApplicationRecord
 
 	# RELATIONS #
 
-	has_many :adoptions
-
+	has_many :adoptions, :dependent => :restrict_with_error
 	has_many :users, through: :adoptions
 	belongs_to :user
   belongs_to :category

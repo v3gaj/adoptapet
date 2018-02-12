@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180125172746) do
+ActiveRecord::Schema.define(version: 20180206143627) do
 
   create_table "adoptions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "user_id"
@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(version: 20180125172746) do
 
   create_table "pets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "name"
-    t.string "color"
     t.string "gender"
     t.text "description"
     t.bigint "user_id"
@@ -67,6 +66,9 @@ ActiveRecord::Schema.define(version: 20180125172746) do
     t.string "cover_content_type"
     t.integer "cover_file_size"
     t.datetime "cover_updated_at"
+    t.boolean "deleted"
+    t.string "facebook_id"
+    t.string "size"
     t.index ["category_id"], name: "index_pets_on_category_id"
     t.index ["user_id"], name: "index_pets_on_user_id"
   end

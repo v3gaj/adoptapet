@@ -1,8 +1,11 @@
 class PetsController < ApplicationController
-  before_action :set_pet, only: [:show, :edit, :profile, :gallery, :update, :destroy]
+  before_action :set_pet, only: [:show, :edit, :profile, :gallery, :update, :destroy, :delete]
   before_action :require_user, only: [:new, :create, :edit, :update, :destroy]
   before_action :require_admin, only: [:requests]
   before_action :pet_owner_editor, only: [:edit, :update]
+  before_action only: [:show] do
+    pet_deleted(@pet)
+  end
   # GET /pets
   # GET /pets.json
   def index
@@ -13,12 +16,12 @@ class PetsController < ApplicationController
       priority = params['data']['priority']
       gender = params['data']['gender']
 
-      @pets = Pet.all.where('(pets.category_id LIKE ? AND pets.priority LIKE ? AND pets.gender LIKE ?) AND (pets.id NOT IN (?) or pets.id IN (?))', "%"+category_id+"%", "%"+priority+"%", "%"+gender+"%", (Adoption.all.select(:pet_id).where("adoptions.status <> ? AND adoptions.status <> ?", 'created', 'returned')), 
+      @pets = Pet.all.where('(pets.category_id LIKE ? AND pets.priority LIKE ? AND pets.gender LIKE ? AND pets.deleted = ?) AND (pets.id NOT IN (?) or pets.id IN (?))', "%"+category_id+"%", "%"+priority+"%", "%"+gender+"%", false, (Adoption.all.select(:pet_id).where("adoptions.status <> ? AND adoptions.status <> ?", 'created', 'returned')), 
           (Adoption.all.select(:pet_id).where("adoptions.status = ? AND adoptions.pet_id NOT IN (?)", 'rejected', (Adoption.all.select(:pet_id).where("adoptions.status = ?", 'accepted'))))).order(created_at: :desc)
       @pets.count < 1 ? @search_results = 0 : @search_results = @pets.count
       @pets = @pets.paginate(page: params[:page], per_page: 12)
     else
-      @pets = Pet.all.where('pets.id NOT IN (?) or pets.id IN (?)', (Adoption.all.select(:pet_id).where("adoptions.status <> ? AND adoptions.status <> ?", 'created', 'returned')), 
+      @pets = Pet.all.where('pets.deleted = ? AND (pets.id NOT IN (?) OR pets.id IN (?))', false, (Adoption.all.select(:pet_id).where("adoptions.status <> ? AND adoptions.status <> ?", 'created', 'returned')), 
             (Adoption.all.select(:pet_id).where("adoptions.status = ? AND adoptions.pet_id NOT IN (?)", 'rejected', (Adoption.all.select(:pet_id).where("adoptions.status = ?", 'accepted'))))).order(created_at: :desc)
       
       @pets = @pets.paginate(page: params[:page], per_page: 12)
@@ -38,7 +41,7 @@ class PetsController < ApplicationController
 
       @pets = Pet.all.joins(:adoptions).where("pets.name LIKE ? AND pets.category_id LIKE ? AND pets.show = ? AND adoptions.status = ?", "%"+name+"%", "%"+category_id+"%", true, 'accepted').order("adoptions.updated_at desc").uniq
       @pets.count < 1 ? @search_results = 0 : @search_results = @pets.count
-      @pets = @pets
+      @pets = @pets.paginate(page: params[:page], per_page: 12)
     else
       @pets = Pet.all.joins(:adoptions).where("pets.show = ? AND adoptions.status = ?", true, 'accepted').order("adoptions.updated_at desc").uniq
       @pets = @pets.paginate(page: params[:page], per_page: 12)
@@ -88,10 +91,13 @@ class PetsController < ApplicationController
     @pet = Pet.new(pet_params)
     @pet.user = current_user
     @pet.show = true
+    @pet.deleted = false
     respond_to do |format|
       if @pet.save
         MessageMailer.pet_created(@pet).deliver_now
-        facebook_create_post(@pet.name, @pet.description, pet_path(@pet))
+        post_id = facebook_create_post(@pet.name, @pet.description, pet_path(@pet))
+        @pet.facebook_id = post_id['id']
+        @pet.update(@pet.attributes)
         format.html { redirect_to @pet, notice: 'La mascota fue ingresada exitosamente.' }
         format.json { render :show, status: :created, location: @pet }
       else
@@ -117,14 +123,37 @@ class PetsController < ApplicationController
 
   # DELETE /pets/1
   # DELETE /pets/1.json
+  def delete
+    if Adoption.delete_pet(@pet, current_user) || Adoption.delete_by_admin(@pet, current_user)
+      @pet.deleted = true
+      respond_to do |format|
+        if @pet.update(@pet.attributes)
+          facebook_delete_post(@pet.facebook_id)
+          close_all_adoption_requests(@pet)
+          format.html { redirect_to my_profile_path, notice: 'La información de la mascota se elimino exitosamente.' }
+          format.json { render :show, status: :ok, location: @pet }
+        else
+          format.html { render :edit }
+          format.json { render json: @pet.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      redirect_back fallback_location: my_profile_path, notice: 'Solo puedes eliminar tus mascotas si no las has entregado a un nuevo dueño'
+    end
+  end
+
   def destroy
     if Adoption.delete_pet(@pet, current_user) || Adoption.delete_by_admin(@pet, current_user)
-      close_all_adoption_requests(@pet)
-      @pet.destroy
       respond_to do |format|
-        MessageMailer.pet_deleted(@pet).deliver_now
-        format.html { redirect_to my_profile_path, notice: 'La información de la mascota se elimino exitosamente.' }
-        format.json { head :no_content }
+        if @pet.destroy
+          facebook_delete_post(@pet.facebook_id)
+          MessageMailer.pet_deleted(@pet).deliver_now
+          format.html { redirect_to my_profile_path, notice: 'La información de la mascota se elimino exitosamente.' }
+          format.json { head :no_content }
+        else
+          format.html { redirect_back fallback_location: pet_path(@pet) }
+          flash[:danger] = "Esta mascota no se puede eliminar porque exiten solicitudes de adopción relacionadas a ella."
+        end
       end
     else
       redirect_back fallback_location: my_profile_path, notice: 'Solo puedes eliminar tus mascotas si no las has entregado a un nuevo dueño'
@@ -139,7 +168,7 @@ class PetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def pet_params
-      params.require(:pet).permit(:name, :photo, :category_id, :color, :gender, :years, :province, :city ,:months, :priority, :show, :cover, :description, :user_id)
+      params.require(:pet).permit(:name, :photo, :category_id, :size, :deleted, :gender, :years, :province, :city ,:months, :priority, :show, :cover, :description, :user_id)
     end
 
     def close_all_adoption_requests(pet)
@@ -154,11 +183,22 @@ class PetsController < ApplicationController
     end
 
     def facebook_create_post(name, description, url)
-      @graph = Koala::Facebook::API.new('EAACEdEose0cBADPogLILu4YRsWXu5gbcfGokZAvwDTtTl6liAMUzZCn803Tm0RzrBHSv0x1OrPpnEqFS4lIslj5nJzb8e13JuiarsVJVWrx1TWDHB8y6fasSRI68ZA1q8Ss4nKMko4xJFccdUUKr68ZAxjnaY0DJgXqv8NsagCqn2vR1GstbPkikV9vCy8AVEQ9J9hTZCzAZDZD')
+      @graph = Koala::Facebook::API.new('EAACEdEose0cBAPdjcyDx972RxKhZA0AuOr242gZCmMh4ziTdm3Wv6sOqy0LoyRWYr9T4LDNfdTo6Ik5OzELGCXq2evwxNaiZCCTeFwnSeW9icy8BKLwuFIRneeCmglVRdcMLjg1tP9gL58L63mpZCvlxhz9Xzd9Q5nZAHPtU1UX5V8nQlZCJ27IiYzZB3EQkaIz1hCxyIdMZAAZDZD')
       @graph.put_wall_post("Adopta esta mascota!", {
         link: "http://tripcustomizers.com/" + url
       })
     end
 
+    def facebook_delete_post(id)
+      @graph = Koala::Facebook::API.new('EAACEdEose0cBAPdjcyDx972RxKhZA0AuOr242gZCmMh4ziTdm3Wv6sOqy0LoyRWYr9T4LDNfdTo6Ik5OzELGCXq2evwxNaiZCCTeFwnSeW9icy8BKLwuFIRneeCmglVRdcMLjg1tP9gL58L63mpZCvlxhz9Xzd9Q5nZAHPtU1UX5V8nQlZCJ27IiYzZB3EQkaIz1hCxyIdMZAAZDZD')
+      @graph.delete_object(id)
+    end
+
+    def pet_deleted(pet)
+      if @pet.deleted == true
+        flash[:danger] = "La mascota no existe."
+        redirect_back fallback_location: my_profile_path
+      end
+    end
 
 end
