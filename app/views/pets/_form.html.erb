@@ -87,6 +87,8 @@
       <%= f.label "Foto *", :class => 'control-label col-lg-2' %>
       <div class="col-lg-10">
         <%= f.file_field :photo, :class => 'form-control', placeholder: "Seleccione una foto de la mascota...", autofocus: true, :required => true %>
+        <br>
+        La información de esta mascota sera publicada automaticamente en la página de Facebook de <a href="https://www.facebook.com/Adopta-una-Mascota-554357098260414/" target="_blank">Adopte un Mascota</a>.
       </div>
       <%=f.error_span(:photo) %>
     </div>
