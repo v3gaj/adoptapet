@@ -183,14 +183,14 @@ class PetsController < ApplicationController
     end
 
     def facebook_create_post(name, description, url)
-      @graph = Koala::Facebook::API.new('EAACEdEose0cBAPdjcyDx972RxKhZA0AuOr242gZCmMh4ziTdm3Wv6sOqy0LoyRWYr9T4LDNfdTo6Ik5OzELGCXq2evwxNaiZCCTeFwnSeW9icy8BKLwuFIRneeCmglVRdcMLjg1tP9gL58L63mpZCvlxhz9Xzd9Q5nZAHPtU1UX5V8nQlZCJ27IiYzZB3EQkaIz1hCxyIdMZAAZDZD')
+      @graph = Koala::Facebook::API.new('EAACEdEose0cBADm21liEmcBZC8bFxaEteGtBZCyfXAYIozlVQbbEWefcqrqonR8J2yUUOsZBZCaqPN6Gac8orrV8XDSq90xfFgnSQrxwLEVZC6QHBXPAvArsOs5ZBIQgI4276p5SUdoWWjaaHfQ1QL7aXbmF1ZCt6vroUwsPOewOj0zFxBnZBwaIyCUeWM98EWNkHtsOerPuDQZDZD')
       @graph.put_wall_post("Adopta esta mascota!", {
         link: "http://tripcustomizers.com/" + url
       })
     end
 
     def facebook_delete_post(id)
-      @graph = Koala::Facebook::API.new('EAACEdEose0cBAPdjcyDx972RxKhZA0AuOr242gZCmMh4ziTdm3Wv6sOqy0LoyRWYr9T4LDNfdTo6Ik5OzELGCXq2evwxNaiZCCTeFwnSeW9icy8BKLwuFIRneeCmglVRdcMLjg1tP9gL58L63mpZCvlxhz9Xzd9Q5nZAHPtU1UX5V8nQlZCJ27IiYzZB3EQkaIz1hCxyIdMZAAZDZD')
+      @graph = Koala::Facebook::API.new('EAACEdEose0cBADm21liEmcBZC8bFxaEteGtBZCyfXAYIozlVQbbEWefcqrqonR8J2yUUOsZBZCaqPN6Gac8orrV8XDSq90xfFgnSQrxwLEVZC6QHBXPAvArsOs5ZBIQgI4276p5SUdoWWjaaHfQ1QL7aXbmF1ZCt6vroUwsPOewOj0zFxBnZBwaIyCUeWM98EWNkHtsOerPuDQZDZD')
       @graph.delete_object(id)
     end
 
