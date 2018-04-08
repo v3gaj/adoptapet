@@ -1,41 +1,30 @@
-<% if current_user %>  
-  <% if Pet.owner_editor(@pet, current_user) || current_user.admin? %>
-    <%= link_to new_pet_post_path(@pet), class: "icon-title-h4 post-position-h4" do %>
-      <i class="fa fa-plus-circle"></i>
-    <% end %>
+<%#
+<% if Pet.pet_editor(@pet, current_user) %>
+  <%#<%= link_to new_pet_post_path(@pet), class: "icon-title-h4 post-position-h4" do %>
+    <%#<i class="fa fa-plus-circle"></i>
   <% end %>
+<%#<% end %>
+
+<% if Pet.pet_editor(@pet, current_user) %>
+  <h4>Crear Publicación</h4>
+  <%= render :partial => 'posts/form' %>
 <% end %>
 
 <% if @posts && @posts.count > 0 %>
-  <h4>Publicaciones Recientes</h4>
-  
-  <div class="posts-wrapper">
-    <% @posts.each do |post| %>
-      <div class="post-details">
-        <p><%= post.comment %></p>
-        <% if post.image? %>
-          <%= image_tag post.image(:medium)  %>
-        <% end %>
-        <span><strong><%= post.created_at.strftime("%b %d, %Y") %></strong></span>
-        <% if current_user %>
-          <% if Pet.owner_editor(@pet, current_user) || current_user.admin? %>
-            <div class="post-actions">
-              <%= link_to "Editar",
-                            edit_pet_post_path(@pet, post), :class => 'btn btn-default btn-xs' %>
-              <%= link_to "Eliminar",
-                            [@pet, post],
-                            :method => :delete,
-                            :data => { :confirm => "Estás seguro que deseas eliminar la publicación?" },
-                            :class => 'btn btn-xs btn-danger' %>
-            </div>
-          <% end %>
-        <% end %>
+  <div class="profile-bar">
+    <h4>Publicaciones Recientes</h4>
+    <div class="posts-wrapper">
+      <%= render :partial => 'posts/post' %>
+      <div class="add_five_posts">
+        <%= link_to "Mostrar mas publicaciones!", add_five_path(count: @count, pet_id: @pet.slug), remote: :true, :class => 'btn btn-primary add_five_link' %>
       </div>
-    <% end %>
+    </div>
   </div>
 <% else %>
   <h4>No se han creado publicaciones!</h4>
 <% end %>
+
+
 
 
 

@@ -22,6 +22,7 @@ class PhotosController < ApplicationController
     @photo = Photo.new()
     @errors = []
     @counter = 0
+    @photos = @pet.photos.all.order(created_at: :desc)
 
     params[:photos].each do |photo|
       if Photo.create(:pet_id => @pet.id, :photo => photo).valid?
@@ -41,9 +42,11 @@ class PhotosController < ApplicationController
       if @errors.count < 1
         format.html { redirect_to pet_path(@pet), notice: 'Las fotos se han incluido exitosamente.' }
         format.json { render :show, status: :created, location: @photo }
+        format.js   { render :layout => false }
       else
         format.html { render :new }
-        format.json { render json: @errors, status: :unprocessable_entity }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
+        format.js   { render :layout => false }
       end
     end
   end

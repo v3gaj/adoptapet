@@ -44,7 +44,8 @@ class Pet < ApplicationRecord
   belongs_to :category
 	has_many :posts, dependent: :destroy
 	has_many :photos, dependent: :destroy
-
+  belongs_to :owner, optional: true, :class_name => 'User'
+  belongs_to :editor, :class_name => 'User'
 
 	# METHODS #
 
@@ -86,5 +87,18 @@ class Pet < ApplicationRecord
   end
 
 
+  def self.pet_editor(pet, current_user)
+    if current_user && (current_user.id == pet.editor_id || current_user.admin)
+      return true
+    end
+  end
+
+  def self.pet_owner(pet, current_user)
+    if pet.owner_id == nil
+      current_user && (current_user.id == pet.user_id || current_user.admin)
+    elsif current_user && (current_user.id == pet.owner_id || current_user.admin)
+      return true
+    end
+  end
 
 end

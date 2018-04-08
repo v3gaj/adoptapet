@@ -1,0 +1,6 @@
+$('.render-post-edit').html("");
+
+$('.edit-post-link').bind('ajax:success', function(event) {
+	$(this).parent().next().html("<%= j (render :partial => 'posts/form') %>");
+	event.stopImmediatePropagation();
+});

@@ -5,7 +5,11 @@ class ApplicationController < ActionController::Base
   require 'will_paginate/array'
 
   def categories_with_pets
-    @categ = Category.all.joins(:pets).uniq 
+    @categ = Category.all.joins(:pets).where('(pets.owner_id IS NULL OR 
+                                                   pets.id IN (?)) AND 
+                                                   pets.deleted = ?', 
+                                                   (Adoption.all.select(:pet_id).where('adoptions.status = ?', 'returned')),
+                                                   false).uniq
   end
 
   def require_user
@@ -24,7 +28,7 @@ class ApplicationController < ActionController::Base
   end
 
   def pet_owner_editor
-    if !Pet.owner_editor(@pet, current_user) && !current_user.admin?
+    if !Pet.pet_editor(@pet, current_user)
       flash[:danger] = "Solo puedes editar tus propias mascotas."
       redirect_back fallback_location: pet_path(@pet)
     end

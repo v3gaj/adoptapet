@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180206143627) do
+ActiveRecord::Schema.define(version: 20180329174717) do
 
-  create_table "adoptions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "adoptions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
     t.string "status"
     t.text "comments"
@@ -25,13 +25,13 @@ ActiveRecord::Schema.define(version: 20180206143627) do
     t.index ["user_id"], name: "index_adoptions_on_user_id"
   end
 
-  create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
     t.string "sluggable_type", limit: 50
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20180206143627) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
-  create_table "pets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "pets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.string "gender"
     t.text "description"
@@ -69,11 +69,15 @@ ActiveRecord::Schema.define(version: 20180206143627) do
     t.boolean "deleted"
     t.string "facebook_id"
     t.string "size"
+    t.bigint "owner_id"
+    t.bigint "editor_id"
     t.index ["category_id"], name: "index_pets_on_category_id"
+    t.index ["editor_id"], name: "index_pets_on_editor_id"
+    t.index ["owner_id"], name: "index_pets_on_owner_id"
     t.index ["user_id"], name: "index_pets_on_user_id"
   end
 
-  create_table "photos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "photos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "photo_file_name"
     t.string "photo_content_type"
     t.integer "photo_file_size"
@@ -84,7 +88,7 @@ ActiveRecord::Schema.define(version: 20180206143627) do
     t.index ["pet_id"], name: "index_photos_on_pet_id"
   end
 
-  create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "comment"
     t.string "image_file_name"
     t.string "image_content_type"
@@ -96,7 +100,7 @@ ActiveRecord::Schema.define(version: 20180206143627) do
     t.index ["pet_id"], name: "index_posts_on_pet_id"
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

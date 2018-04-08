@@ -66,7 +66,7 @@ class AdoptionsController < ApplicationController
   # POST /adoptions.json
   def create
     if Adoption.adoption_not_incomplete_exists(current_user, @pet)
-      flash[:danger] = "Una solicitud de adopción con las mismas características ya fue solicitada."
+      flash[:danger] = "Una solicitud de adopción con las mismas características ya fue creada."
       redirect_back fallback_location: root_path
     else  
       @adoption = Adoption.new(adoption_params)
@@ -96,6 +96,7 @@ class AdoptionsController < ApplicationController
     if params[:type] == 'accepted'
       owner = Pet.search_owner(@pet) # Required to send emails
       adoptions_affected_by_change(params[:userId], params[:petId], 'incomplete')
+      pet_include_owner(@adoption, @pet)
       @adoption.status = "accepted"
       notice = 'La solicitud de adopción fue aceptada, confiamos en tu criterio.'
     elsif params[:type] == 'rejected'
@@ -104,6 +105,7 @@ class AdoptionsController < ApplicationController
     elsif params[:type] == 'received'
       @adoption.received = true
       adoptions_affected_update(params[:userId], params[:petId], 'closed')
+      pet_update_editor(@pet)
       notice = 'Has confirmado que la mascota esta ahora en tus manos.'
     elsif params[:type] == 'keep'
       adoptions_affected_by_change(params[:userId], params[:petId], 'incomplete')
@@ -133,14 +135,14 @@ class AdoptionsController < ApplicationController
 
   def reject
     @adoption.status = "returned"
-    @adoption.rejectReason =   params[:adoption][:rejectReason]
+    @adoption.rejectReason = params[:adoption][:rejectReason]
     adoptions_affected_created(params[:userId], params[:petId], 'created')
     respond_to do |format|
       if @adoption.update(@adoption.attributes) && @adoption.valid?(:reject)
-        owner = Pet.search_owner(@pet) # Required to send emails
         MessageMailer.adoption_returned(@adoption).deliver_now
-        if owner != @adoption.user # if the owner has received the pet he will be the actual owner
-          MessageMailer.adoption_returned_owner(@adoption, owner).deliver_now
+        if !@adoption.received?
+          MessageMailer.adoption_returned_owner(@adoption, @pet.user).deliver_now
+          pet_update_owner(@pet)
         end
         format.html { redirect_to my_profile_path, notice: 'Has rechazado conservar las mascota, esta volvera a estar disponible para ser adoptada.' }
         format.json { render :show, status: :ok, location: @adoption }
@@ -217,6 +219,25 @@ class AdoptionsController < ApplicationController
         end
         adoption.update(adoption.attributes)
       end
+    end
+
+    def pet_include_owner(adoption, pet)
+      pet.owner = adoption.user
+      pet.update(pet.attributes)
+    end
+
+    def pet_update_editor(pet)
+      pet.editor = pet.owner
+      pet.update(pet.attributes)
+    end
+
+    def pet_update_owner(pet)
+      if pet.editor?
+        pet.owner = pet.user
+      else
+        pet.owner = pet.editor
+      end
+      pet.update(pet.attributes)
     end
 
     def pet_deleted(pet)

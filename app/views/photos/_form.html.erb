@@ -1,20 +1,6 @@
-<%= form_for([@pet, @photo], :html => { :class => "form-horizontal photo col-lg-9 col-sm-offset-1" }) do |f| %>
+<%= form_for([@pet, @photo], remote: true, :html => { :class => "form-horizontal photo col-lg-9 col-sm-offset-1" }) do |f| %>
 
-  <% if @errors %>
-    <div id="error_expl" class="panel panel-danger">
-      <div class="panel-heading">
-        <h3 class="panel-title"><%= pluralize(@errors.count, "error") %> prohibited this photo from being saved:</h3>
-      </div>
-      <div class="panel-body">
-        <ul>
-        <% @errors.each do |error| %>
-          <li><strong>File with identifier <%= error['image'] %> has the following error</strong></li>
-          <li><%= error['error'] %></li>
-        <% end %>
-        </ul>
-      </div>
-    </div>
-  <% end %>
+  <div id="photo_errors"></div>
 
   <div class="form-group">
     <%= f.label "Fotos", :class => 'control-label col-lg-2' %>

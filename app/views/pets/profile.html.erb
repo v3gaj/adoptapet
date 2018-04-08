@@ -29,18 +29,16 @@
     </div>
   </div>
 
-  <div class="bar-profile-wrapper col-lg-6">
-    <div class="profile-bar">
-      <%= render :template => 'posts/index' %>
-    </div>
+  <div id="render-posts" class="bar-profile-wrapper col-lg-6">
+    <%= render :template => 'posts/index' %>
   </div>
 
   <div class="bar-profile-wrapper col-lg-3">
     <div class="profile-bar right-bar">
       <h4>Acciones</h4>
       <% if current_user %>  
-        <% if Pet.owner_editor(@pet, current_user) || current_user.admin? %>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")), edit_pet_path(@pet), :class => 'btn btn-default' %>
+        <% if Pet.pet_editor(@pet, current_user) %>
+          <%= link_to "Editar", edit_pet_path(@pet), :class => 'btn btn-default' %>
         <% end %>
         <% if Adoption.delete_pet(@pet, current_user) || Adoption.delete_by_admin(@pet, current_user)%>
           <%= link_to "Delete", pet_delete_path(id: @pet), :method => 'patch',

@@ -1,0 +1,4 @@
+$('.delete-post-link').bind('ajax:success', function(event) {
+	$(this).closest('.post-details').fadeOut(1000);
+	event.stopImmediatePropagation();
+});

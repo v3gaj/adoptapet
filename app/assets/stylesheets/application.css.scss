@@ -29,12 +29,21 @@
  *= require slick-theme
  */
 
+textarea {
+	resize: none;
+}
 
 h1, h2, h3{
  	font-family: 'Merriweather';
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 0.5px;
+ }
+
+ h4{
+ 	margin-bottom: 0;
+ 	padding-bottom: 10px;
+ 	border-bottom: 1px solid rgba(0, 0, 0, 0.125);
  }
 
 .check-box{
@@ -87,6 +96,7 @@ h1, h2, h3{
 	margin-bottom: 30px;
 }
 
+.contact-card,
 .user-card{
 	border: 1px solid rgba(0, 0, 0, 0.125);
     background-color: #fff;
@@ -104,6 +114,12 @@ h1, h2, h3{
 
     p{
     	margin-bottom: 3px !important;
+    }
+
+    i{
+    	font-size: 80px;
+    	padding-bottom: 10px;
+    	color: #357ebd;
     }
 }
 
@@ -428,6 +444,13 @@ body{
 	    p{
 	    	font-size: 17px;
 	    	font-style: italic;
+	    	text-align: justify;
+		    max-height: 6.9em;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    display: -webkit-box;
+		    -webkit-box-orient: vertical;
+		    -webkit-line-clamp: 5;
 	    }
     }
 
@@ -552,9 +575,9 @@ body{
 }
 
 .post-details{
-	border-top: 1px solid rgba(0, 0, 0, 0.125);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 	padding-top: 15px;
-	margin-top: 15px;
+	padding-bottom: 15px;
 	overflow: auto;
 
 	span{
@@ -724,6 +747,23 @@ body{
 	}
 }
 
+.form-post-profile{
+    margin-bottom: 10px;
+    padding-top: 15px;
+
+    .col-lg-12{
+    	padding: 0;
+    }
+}
+
+.add_five_posts{
+	text-align: center;
+
+	.add_five_link{
+		margin-top: 30px;
+	}
+}
+
 /************************************USER************************************/
 
 .user-profile{
@@ -869,8 +909,7 @@ footer{
 .scroller{
 	background-image: url('slider.png');
 	background-repeat: no-repeat;
-  background-size: 100% 100%;
-  min-height: 506px;
+  	background-size: 100% 100%;
 
 	.slick-list{
 		padding: 70px 0 30px 0 !important;
@@ -942,4 +981,12 @@ footer{
 			opacity: 0.3;
 		}
 	}
+}
+
+
+/************************************CONTACT************************************/
+
+.contact {
+	margin-top: 30px;
+	margin-bottom: 30px;
 }

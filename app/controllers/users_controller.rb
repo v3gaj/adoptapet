@@ -24,7 +24,9 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @myPets = @user.animals.joins(:adoptions).where("adoptions.status = ?", 'accepted').or(@user.animals.joins(:adoptions).where("adoptions.status = ? AND adoptions.received = ?", 'returned', true )).uniq
+    @myPets = @user.owned_pets
+
+    #@myPets = @user.animals.joins(:adoptions).where("adoptions.status = ?", 'accepted').or(@user.animals.joins(:adoptions).where("adoptions.status = ? AND adoptions.received = ?", 'returned', true )).uniq
     @requests = @user.animals.joins(:adoptions).where("adoptions.status != 'accepted'").uniq
     @adoptions = @user.pets.where("pets.deleted = false")
 
@@ -35,7 +37,8 @@ class UsersController < ApplicationController
 
   def profile
     @user = current_user
-    @myPets = @user.animals.joins(:adoptions).where("adoptions.status = ?", 'accepted').or(@user.animals.joins(:adoptions).where("adoptions.status = ? AND adoptions.received = ?", 'returned', true )).uniq
+    @myPets = @user.owned_pets
+    #@myPets = @user.animals.joins(:adoptions).where("adoptions.status = ?", 'accepted').or(@user.animals.joins(:adoptions).where("adoptions.status = ? AND adoptions.received = ?", 'returned', true )).uniq
     @requests = @user.animals.joins(:adoptions).where("adoptions.status != 'accepted'").uniq
     @adoptions = @user.pets.where("pets.deleted = false")
 

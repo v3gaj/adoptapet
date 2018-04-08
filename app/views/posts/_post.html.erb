@@ -1,0 +1,22 @@
+<% @posts.each do |post| %>
+  <div class="post-details">
+    <p><%= post.comment %></p>
+    <% if post.image? %>
+      <%= image_tag post.image(:medium)  %>
+    <% end %>
+    <span><strong><%= post.created_at.strftime("%b %d, %Y") %></strong></span>
+    <% if Pet.pet_editor(@pet, current_user) %>
+      <div class="post-actions">
+        <%= link_to "Editar",
+                      edit_pet_post_path(@pet, post), remote: :true, :class => 'btn btn-default btn-xs edit-post-link' %>
+        <%= link_to "Eliminar",
+                      [@pet, post],
+                      :method => :delete,
+                      :remote => :true,
+                      :data => { :confirm => "Estás seguro que deseas eliminar la publicación?" },
+                      :class => 'btn btn-xs btn-danger delete-post-link' %>
+      </div>
+    <% end %>
+    <div class="render-post-edit"></div>
+  </div>
+<% end %>

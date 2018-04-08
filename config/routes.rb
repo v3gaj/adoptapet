@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   resources :users, :except => [:new, :profile, :index]
 
+  get 'add_five', to: 'posts#addFive'
+
   get 'all_users', to: 'users#index'
   post 'all_users', to: 'users#index'
 
@@ -22,7 +24,7 @@ Rails.application.routes.draw do
 
   get 'about', to: 'index#about'
 
-  get 'contact', to: 'index#contact'
+  match "contact", to: "index#contact", :via => 'get'
 
   get 'my_profile', to: 'users#profile'
 
@@ -41,6 +43,11 @@ Rails.application.routes.draw do
   patch 'reject', to: 'adoptions#reject'
 
   get 'redirection_back', to: 'application#redirection_back'
+
+
+  #Contact Mailer
+
+  post 'contact', to: 'messages#create'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

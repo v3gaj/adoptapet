@@ -1,0 +1,5 @@
+<% if @post.errors.any? %>
+  	$('#post_errors').html("<%= j (render 'errors') %>");
+<% else %>
+	$('#render-posts').html("<%= j (render :template => 'posts/index.html') %>");
+<% end %>

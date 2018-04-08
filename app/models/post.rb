@@ -1,5 +1,10 @@
 class Post < ApplicationRecord
 
+	# CONSTANTS #
+
+	POSTSPERREFRESH = 5
+
+
 	# RELATIONS #
 
 	belongs_to :pet

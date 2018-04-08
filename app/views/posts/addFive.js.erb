@@ -1,0 +1,7 @@
+$("<%= j (render :partial => 'posts/post') %>").insertAfter($('.post-details').last());
+$('.add_five_posts').html('<%= link_to "Mostrar mas publicaciones!", add_five_path(count: @count, pet_id: @pet.slug), remote: :true, :class => "btn btn-primary add_five_link" %>');
+<% if @posts.count + (@count * 5) == @postsCount %>
+	$('.add_five_posts').remove();
+	console.log('Juan')
+<% end %>
+console.log("Vega")

@@ -3,6 +3,8 @@
     <tr>
       <th></th>
       <th>Nombre</th>
+      <th>Email</th>
+      <th>Teléfono</th>
       <th>Provincia</th>
       <th>Ciudad</th>
       <th>Comentarios</th>
@@ -18,6 +20,8 @@
           <td><%= link_to image_tag('user.png'), user_path(adopter), class: "user-adopter-photo" %></td>
         <% end %>
         <td><%= "#{adopter.name.capitalize} #{adopter.lastName.capitalize}" %></td>
+        <td><%= adopter.email %></td>
+        <td><%= adopter.phone %></td>
         <td><%= adopter.province %></td>
         <td><%= adopter.city %></td>
         <td><%= Adoption.get_adoption_comments(adopter, @pet) %></td>

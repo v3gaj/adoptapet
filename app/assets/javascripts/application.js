@@ -76,7 +76,6 @@ $(document).on('turbolinks:load', function() {
 	$(function(){
 		$('.scroller').slick({
 		  centerMode: true,
-		  centerPadding: '0px',
 		  slidesToShow: 3,
 		  autoplay: true,
 	  	  autoplaySpeed: 2000,
@@ -86,7 +85,6 @@ $(document).on('turbolinks:load', function() {
 		      settings: {
 		        arrows: false,
 		        centerMode: true,
-		        centerPadding: '40px',
 		        slidesToShow: 3
 		      }
 		    },
@@ -95,7 +93,6 @@ $(document).on('turbolinks:load', function() {
 		      settings: {
 		        arrows: false,
 		        centerMode: true,
-		        centerPadding: '40px',
 		        slidesToShow: 1
 		      }
 		    }

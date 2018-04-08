@@ -39,6 +39,8 @@ class User < ApplicationRecord
   has_many :pets, :dependent => :restrict_with_error
   has_many :adoptions, :dependent => :restrict_with_error
   has_many :animals, through: :adoptions, :dependent => :restrict_with_error
+  has_many :owned_pets, :class_name => 'Pet', :foreign_key => 'owner_id'
+  has_many :edited_pets, :class_name => 'Pet', :foreign_key => 'editor_id'
 
   # METHODS #
 

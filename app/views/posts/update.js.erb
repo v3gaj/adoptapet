@@ -1,0 +1,14 @@
+<% if @post.errors.any? %>
+	$('.form-post-profile').bind('ajax:success', function(event) {
+		$(this).find('#post_errors').html("<%= j (render 'errors') %>");
+		event.stopImmediatePropagation();
+	});
+<% else %>
+	$('#render-posts').html("<%= j (render :template => 'posts/index.html') %>");
+
+	<% if @posts.count == @postsCount %>
+		$('.add_five_posts').remove();
+		console.log('Juan')
+	<% end %>
+	
+<% end %>
