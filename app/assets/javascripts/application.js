@@ -25,7 +25,7 @@
 //= require prettyphoto-rails
 //= require prettyphoto-rails-dev
 
-//= require jquery.slick
+//= slick
 
 
 $(document).on('turbolinks:load', function() {
