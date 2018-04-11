@@ -50,8 +50,6 @@ class PostsController < ApplicationController
         @count = (index / Post::POSTSPERREFRESH) - 1
         @posts = posts.take(index)
         @postsCount = posts.count
-            puts @postsCount 
-    puts @posts.count
         @post = Post.new
         format.html { redirect_to pet_path(@pet), notice: 'La publicación se ha actualizado exitosamente.' }
         format.json { render :show, status: :ok, location: @post }

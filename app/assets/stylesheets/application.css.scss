@@ -928,7 +928,7 @@ footer{
 		-ms-transition: all 150ms linear 0ms;
 		-o-transition: all 150ms linear 0ms;
 		transition: all 150ms linear 0ms;
-
+		-webkit-backface-visibility: hidden;
 	}
 	.slick-center{
 		-webkit-transform: scale(1.1);
@@ -990,3 +990,5 @@ footer{
 	margin-top: 30px;
 	margin-bottom: 30px;
 }
+
+
