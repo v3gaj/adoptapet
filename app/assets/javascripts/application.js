@@ -79,15 +79,13 @@ $(document).on('turbolinks:load', function() {
 		  slidesToShow: 3,
 		  autoplay: true,
 	  	  autoplaySpeed: 2000,
-	  	  focusOnSelect: false,
 		  responsive: [
 		    {
 		      breakpoint: 768,
 		      settings: {
 		        arrows: false,
 		        centerMode: true,
-		        slidesToShow: 3,
-		        focusOnSelect: false
+		        slidesToShow: 3
 		      }
 		    },
 		    {
@@ -95,8 +93,7 @@ $(document).on('turbolinks:load', function() {
 		      settings: {
 		        arrows: false,
 		        centerMode: true,
-		        slidesToShow: 1,
-		        focusOnSelect: false
+		        slidesToShow: 1
 		      }
 		    }
 		  ]

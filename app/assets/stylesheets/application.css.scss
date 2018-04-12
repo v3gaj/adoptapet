@@ -886,8 +886,8 @@ footer{
 /************************************SCROLLER************************************/
 
 .slick-slider {
-	touch-action: auto;
-	-ms-touch-action: auto;
+	touch-action: pan-y !important;
+	-ms-touch-action: pan-y !important;
 }
 
 .scroller-card-wrapper{
