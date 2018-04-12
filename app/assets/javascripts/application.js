@@ -17,7 +17,6 @@
 //= require_tree .
 
 //= require masonry/jquery.masonry
-//= require masonry/jquery.event-drag
 //= require masonry/jquery.imagesloaded.min
 //= require masonry/jquery.infinitescroll.min
 //= require masonry/modernizr-transitions
@@ -53,14 +52,6 @@ $(document).on('turbolinks:load', function() {
 	    masonry_update();
 	});
 
-
-	function masonry_update() {
-		$('#masonry-container').masonry({
-	    itemSelector: '.box',
-	    isAnimated: !Modernizr.csstransitions,
-	    isFitWidth: true
-	  });
-	} 
 
 	jQuery(document).ready(function($) {
 	  "use strict";
