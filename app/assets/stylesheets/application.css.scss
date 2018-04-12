@@ -885,6 +885,11 @@ footer{
 
 /************************************SCROLLER************************************/
 
+.slick-slider {
+	touch-action: auto;
+	-ms-touch-action: auto;
+}
+
 .scroller-card-wrapper{
 	position: relative;
 }
