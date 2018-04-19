@@ -1,78 +1,83 @@
-<%- model_class = User -%>
-<div class="page-header">
-  <h1>Bienvenid@ <%= @user.full_name %> !</h1>
-</div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="page-header">
+        <h1>Bienvenid@ <%= @user.full_name %> !</h1>
+      </div>
 
-<div class="user-profile">
-  <div class="bar-profile-wrapper col-lg-7 col-sm-offset-1">
-    <div class="profile-bar left-bar">
+      <div class="user-profile">
+        <div class="bar-profile-wrapper col-lg-7 col-sm-offset-1">
+          <div class="profile-bar left-bar">
 
-      <% if @user.photo? %>
-        <%= image_tag @user.photo.url(:large), class: "img-circle" %>
-      <% else %>
-        <%= image_tag 'userLarge.png', class: "img-circle" %>
+            <% if @user.photo? %>
+              <%= image_tag @user.photo.url(:large), class: "img-circle" %>
+            <% else %>
+              <%= image_tag 'userLarge.png', class: "img-circle" %>
+            <% end %>
+
+            <h4>Información</h4>
+
+            <div class="pet-profile-info">
+              <ul>
+                <li><i class="fa fa-envelope" aria-hidden="true"></i>Email: <strong><%= @user.email %></strong></li>
+                <li><i class="fa fa-phone" aria-hidden="true"></i>Teléfono <strong><%= @user.phone %></strong></li>
+                <li><i class="fa fa-globe" aria-hidden="true"></i>Provincia: <strong><%= @user.province %></strong></li>
+                <li><i class="fa fa-home" aria-hidden="true"></i>Ciudad: <strong><%= @user.city %></strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="bar-profile-wrapper col-lg-3">
+          <div class="profile-bar right-bar">
+            <h4>Acciones</h4>
+            <%= link_to "Agregar Mascota", new_pet_path, :class => 'btn btn-primary' %>
+            <%= link_to "Editar Mi Información",
+                          edit_user_path(@user), :class => 'btn btn-default' %>
+            <% if current_user.admin? %>
+              <%= link_to "Eliminar Usuario",
+                            user_path(@user),
+                            :method => 'delete',
+                            :data => { :confirm => "Estás seguro que deseas eliminar el usuario?" },
+                            :class => 'btn btn-danger' %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+
+      <% if @myPets && @myPets.count > 0 %>
+        <div class="page-header">
+          <h2>Mis Mascotas Adoptadas</h2>
+        </div>
+        <%= render 'pets/petsTable', obj: @myPets %>
       <% end %>
 
-      <h4>Información</h4>
+      <div align="center">
+        <%= will_paginate @myPets, :param_name => 'myPets_page' %>
+      </div>
 
-      <div class="pet-profile-info">
-        <ul>
-          <li><i class="fa fa-envelope" aria-hidden="true"></i>Email: <strong><%= @user.email %></strong></li>
-          <li><i class="fa fa-phone" aria-hidden="true"></i>Teléfono <strong><%= @user.phone %></strong></li>
-          <li><i class="fa fa-globe" aria-hidden="true"></i>Provincia: <strong><%= @user.province %></strong></li>
-          <li><i class="fa fa-home" aria-hidden="true"></i>Ciudad: <strong><%= @user.city %></strong></li>
-        </ul>
+      <% if @adoptions && @adoptions.count > 0 %>
+        <div class="page-header">
+          <h2>Mascotas Ingresadas para Adopción</h2>
+        </div>
+        <%= render 'pets/petsUserAdoptions', obj: @adoptions %>
+      <% end %>
+
+      <div align="center">
+        <%= will_paginate @adoptions, :param_name => 'adoptions_page' %>
+      </div>
+
+      <% if @requests && @requests.count > 0 %>
+        <div class="page-header">
+          <h2>Mis Solicitudes de Mascotas</h2>
+        </div>
+        <%= render 'pets/petsUserRequests', obj: @requests %>
+      <% end %>
+
+      <div align="center">
+        <%= will_paginate @requests, :param_name => 'requests_page' %>
       </div>
     </div>
   </div>
-
-  <div class="bar-profile-wrapper col-lg-3">
-    <div class="profile-bar right-bar">
-      <h4>Acciones</h4>
-      <%= link_to "Agregar Mascota", new_pet_path, :class => 'btn btn-primary' %>
-      <%= link_to "Editar Mi Información",
-                    edit_user_path(@user), :class => 'btn btn-default' %>
-      <% if current_user.admin? %>
-        <%= link_to "Eliminar Usuario",
-                      user_path(@user),
-                      :method => 'delete',
-                      :data => { :confirm => "Estás seguro que deseas eliminar el usuario?" },
-                      :class => 'btn btn-danger' %>
-      <% end %>
-    </div>
-  </div>
-</div>
-
-
-<% if @myPets && @myPets.count > 0 %>
-  <div class="page-header">
-    <h2>Mis Mascotas Adoptadas</h2>
-  </div>
-  <%= render 'pets/petsTable', obj: @myPets %>
-<% end %>
-
-<div align="center">
-  <%= will_paginate @myPets, :param_name => 'myPets_page' %>
-</div>
-
-<% if @adoptions && @adoptions.count > 0 %>
-  <div class="page-header">
-    <h2>Mascotas Ingresadas para Adopción</h2>
-  </div>
-  <%= render 'pets/petsUserAdoptions', obj: @adoptions %>
-<% end %>
-
-<div align="center">
-  <%= will_paginate @adoptions, :param_name => 'adoptions_page' %>
-</div>
-
-<% if @requests && @requests.count > 0 %>
-  <div class="page-header">
-    <h2>Mis Solicitudes de Mascotas</h2>
-  </div>
-  <%= render 'pets/petsUserRequests', obj: @requests %>
-<% end %>
-
-<div align="center">
-  <%= will_paginate @requests, :param_name => 'requests_page' %>
 </div>

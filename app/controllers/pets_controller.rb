@@ -32,7 +32,7 @@ class PetsController < ApplicationController
                              "%"+priority+"%", 
                              "%"+gender+"%", 
                              false).order(created_at: :desc)
-
+      @pets_slider = @pets
       @pets.count < 1 ? @search_results = 0 : @search_results = @pets.count
       @pets = @pets.paginate(page: params[:page], per_page: 12)
     else
@@ -41,6 +41,7 @@ class PetsController < ApplicationController
                              pets.deleted = ?', 
                              (Adoption.all.select(:pet_id).where('adoptions.status = ?', 'returned')), 
                              false).order(created_at: :desc)
+      @pets_slider = @pets
       @pets = @pets.paginate(page: params[:page], per_page: 12)
     end
 
@@ -77,7 +78,10 @@ class PetsController < ApplicationController
   def show
     @post = Post.new
     @adopters = @pet.users.joins(:adoptions).where("adoptions.status = ? ", 'created').uniq
-    @posts = @pet.posts.all.order(created_at: :desc).limit(5)
+    @posts = @pet.posts.all.order(created_at: :desc).limit(Post::POSTSPERREFRESH)
+    posts = @pet.posts.all.order(created_at: :desc)
+    @posts = posts.limit(Post::POSTSPERREFRESH)
+    session[:count] = @posts.count
     if current_user
       @owner = Pet.owner_admin(@pet, current_user)
     end
@@ -86,6 +90,7 @@ class PetsController < ApplicationController
   def profile
     @post = Post.new
     @posts = @pet.posts.all.order(created_at: :desc).limit(Post::POSTSPERREFRESH)
+    session[:count] = @posts.count
     if current_user
       @owner = Pet.owner_admin(@pet, current_user)
     end

@@ -5,10 +5,4 @@
 	});
 <% else %>
 	$('#render-posts').html("<%= j (render :template => 'posts/index.html') %>");
-
-	<% if @posts.count == @postsCount %>
-		$('.add_five_posts').remove();
-		console.log('Juan')
-	<% end %>
-	
 <% end %>

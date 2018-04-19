@@ -32,7 +32,7 @@
   <div class="form-group">
     <%= f.label "Tamaño *", :class => 'control-label col-lg-2' %>
     <div class="col-lg-10">
-      <%= f.select :size, options_for_select([ "Pequeño", "Mediano", "Grande"], :selected => f.object.priority), { :include_blank => "Indique el tamaño que tiene o tendrá la mascota en su adultez..." }, :required => true , class: "form-control", autofocus: true %>
+      <%= f.select :size, options_for_select([ "Pequeño", "Mediano", "Grande"], :selected => f.object.size), { :include_blank => "Indique el tamaño que tiene o tendrá la mascota en su adultez..." }, :required => true , class: "form-control", autofocus: true %>
     </div>
     <%=f.error_span(:size) %>
   </div>

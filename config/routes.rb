@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :sliders, :except => [:show]
   resources :categories, :except => [:show]
   devise_for :users, :controllers => {:registrations => "user/registrations"}
 

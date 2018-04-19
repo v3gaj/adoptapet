@@ -1,19 +1,30 @@
-<div class="home-wrapper">
-  <% if @pets && @pets.count > 2 %>
-    <div class="page-header">
-      <h1>Adóptanos!</h1>
-    </div>
-    <div class="scroller">
-      <% @pets.each do |pet| %>
-        <div class="col-md-4 scroller-card-wrapper">
-          <div class="scroller-card">
-            <%= link_to image_tag(pet.photo.url(:large)), pet_path(pet) %>
-            <h3><%= link_to pet.name.split.map(&:capitalize).join(' '), pet_path(pet) %></h3>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
-</div>
+<div class="fade-wrapper">
+    
+    <div class="fade-middle">
 
+        <div class="fade-slider fade-absolute">
+            <% @sliders.each do |slider| %>
+                <div>
+                    <div class="fade-content">
+                        <h6><%= slider.title %></h6>
+                        <span><%= slider.subtitle %></span>
+                        <% if  slider.url? %>
+                            <% if slider.buttontitle? %>
+                                <%= link_to slider.buttontitle, slider.url  %>
+                            <% else %>
+                                <%= link_to slider.url, slider.url  %>
+                            <% end %>
+                        <% end %>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+        <% if current_user && current_user.admin? %>
+            <%= link_to sliders_path do %>
+                <i class="fa fa-edit"></i>
+            <% end %>
+        <% end %>
+        <%= image_tag 'pet-background.jpg' %>
+    </div>
+</div>
 

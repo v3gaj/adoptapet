@@ -18,4 +18,8 @@ class Post < ApplicationRecord
 	validates_attachment :image, size: { in: 0..3.megabytes }
 	validates_attachment_content_type :image, content_type: /^image\/(jpg|jpeg|pjpeg|png|x-png|gif)$/
 
+	def self.posts_less_or_equals_five(pet, count)
+    	pet.posts.count == count ? true : false
+  	end
+
 end

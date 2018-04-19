@@ -38,6 +38,9 @@ $(document).on('turbolinks:load', function() {
 		});
 	});
 
+	$(function(){
+	});
+
 
 	$(function(){
 	  $('#masonry-container').masonry({
@@ -61,6 +64,18 @@ $(document).on('turbolinks:load', function() {
 	    $("a.prettyphoto").prettyPhoto();
 	    $("a[rel^='prettyPhoto']").prettyPhoto({hook:"rel",social_tools:!1,theme:"pp_default",horizontal_padding:20,opacity:.8,deeplinking:!1});
 	   })
+	});
+
+	$(function(){
+		$('.fade-slider').slick({
+		  dots: true,
+		  infinite: true,
+		  autoplay: true,
+		  autoplaySpeed: 3000,
+		  arrows: false,
+		  cssEase: 'linear',
+		  pauseOnHover:false
+		});	
 	});
 
 
@@ -91,12 +106,12 @@ $(document).on('turbolinks:load', function() {
 		});
 	});
 
-	showContainer();
+	showAnimation();
 			
 });
 
-function showContainer(){
+function showAnimation(){
   setTimeout(function() {
-    $('.container').css({ opacity: "1"});
+    $('.animation-wrapper').css({ opacity: "1"});
   }, 500);
 }

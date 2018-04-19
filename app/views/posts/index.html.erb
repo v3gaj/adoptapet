@@ -10,20 +10,21 @@
   <%= render :partial => 'posts/form' %>
 <% end %>
 
-<% if @posts && @posts.count > 0 %>
-  <div class="profile-bar">
-    <h4>Publicaciones Recientes</h4>
+<div class="profile-bar">
+  <% if @posts && @posts.count > 0 %>
+    <h4 class="bottom-line">Publicaciones Recientes</h4>
     <div class="posts-wrapper">
       <%= render :partial => 'posts/post' %>
-      <div class="add_five_posts">
-        <%= link_to "Mostrar mas publicaciones!", add_five_path(count: @count, pet_id: @pet.slug), remote: :true, :class => 'btn btn-primary add_five_link' %>
-      </div>
+      <% if !Post.posts_less_or_equals_five(@pet, session[:count]) %>
+        <div class="add_five_posts">
+          <%= link_to "Mostrar mas publicaciones!", add_five_path(count: @count, pet_id: @pet.slug), remote: :true, :class => 'btn btn-primary add_five_link' %>
+        </div>
+      <% end %>
     </div>
-  </div>
-<% else %>
-  <h4>No se han creado publicaciones!</h4>
-<% end %>
-
+  <% else %>
+    <h4>No se han creado publicaciones!</h4>
+  <% end %>
+</div>
 
 
 

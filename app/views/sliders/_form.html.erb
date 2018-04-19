@@ -1,0 +1,50 @@
+<%= form_for @slider, :html => { :class => "form-horizontal slider col-lg-7 col-sm-offset-2" } do |f| %>
+
+  <% if @slider.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@slider.errors.count, "error") %> prohibited this slider from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @slider.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :título, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :título, :class => 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :subtítulo, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :subtítulo, :class => 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :botón, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :botón, :class => 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :url, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :url, :class => 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit(@slider.new_record? ? "Crear" : "Guardar Cambios", class: 'btn btn-primary') %>
+      <%= link_to 'Cancelar', sliders_path, :class => 'btn btn-default' %>
+    </div>
+  </div>
+
+<% end %>

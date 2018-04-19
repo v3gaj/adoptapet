@@ -29,6 +29,11 @@
  *= require slick-theme
  */
 
+body{
+	max-width: 1680px;
+	margin: 0 auto;
+}
+
 textarea {
 	resize: none;
 }
@@ -40,10 +45,28 @@ h1, h2, h3{
     letter-spacing: 0.5px;
  }
 
- h4{
+h4{
  	margin-bottom: 0;
  	padding-bottom: 10px;
- 	border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+h6{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+    font-size: 60px;
+}
+
+.animation-wrapper{
+	-webkit-transition: all 500ms linear;
+    -moz-transition: all 500ms linear;
+    -o-transition: all 500ms linear;
+    -ms-transition: all 500ms linear;
+    transition: all 500ms linear;
+    opacity: 0;
+}
+
+ .bottom-line{
+ 	 border-bottom: 1px solid rgba(0, 0, 0, 0.125);
  }
 
 .check-box{
@@ -408,7 +431,6 @@ body{
 .pet-cover{
 	position: relative;
     width: 100vw;
-    left: calc(-50vw + 49.29687%);
     top: -20px;
     height: 600px;
     overflow: hidden;
@@ -435,6 +457,7 @@ body{
 	    	border-radius: 100%;
 		    border: 3px solid #fff;
 		    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+		    width: 300px;
 	    }
 
 	    h1{
@@ -698,6 +721,7 @@ body{
     	border: 3px solid #fff;
     	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
     	border-radius: 100%;
+    	width: 300px;
     }
 }
 
@@ -912,12 +936,13 @@ footer{
 }
 
 .scroller{
+	margin-bottom: 60px !important;
 	background-image: url('slider.png');
 	background-repeat: no-repeat;
   	background-size: 100% 100%;
 
 	.slick-list{
-		padding: 70px 0 30px 0 !important;
+		padding: 70px 60px 30px 60px !important;
 	}
 
 	.slick-slide{
@@ -947,6 +972,7 @@ footer{
 	.slick-arrow{
 		width: 50px;
 		height: 50px;
+		z-index: 100;
 
 		&:before{
 			font-size: 50px;
@@ -955,20 +981,137 @@ footer{
 	}
 
 	.slick-next {
-    right: -50px;
+    right: 45px;
 	}
 
 	.slick-prev {
-    left: -50px;
+    left: 45px;
 	}
 
 }
 
+.fade-wrapper{
+	top: -20px;
+	position: relative;
+    overflow: hidden;
 
+	img{
+		width: 100%;
+	}
+}
+
+.fade-middle{
+	position: relative;
+
+	i{
+		position: absolute;
+		right: 20px;
+		top: 20px;
+		font-size: 40px;
+		color: #fff;
+	}
+}
+
+.fade-slider{
+	top: 200px;
+	margin-bottom: -500px !important;
+
+	img{
+		width: 100%;
+	}
+
+	.slick-dots{
+		top: 50%;
+    	bottom: auto;
+    	margin-top: 10px;
+        -webkit-transform: translateY(-50%);
+	    -khtml-transform: translateY(-50%);
+	    -moz-transform: translateY(-50%);
+	    -ms-transform: translateY(-50%);
+	    -o-transform: translateY(-50%);
+	    transform: translateY(-50%);
+    	left: 80%;
+
+		li{
+			display: list-item;
+			color: #fff;
+			background-color: #fff;
+			border: 1px solid #fff;
+			border-radius: 12px;
+			height: 10px;
+			width: 10px;
+			margin-bottom: 10px;
+
+			button{
+				display: none;
+			}
+		}
+
+		.slick-active{
+			background-color: #3097D1;
+			border: 1px solid #3097D1;
+		}
+	}
+
+	.slick-slide{
+		position: relative;
+		min-height: 500px;
+
+	}
+
+	.slick-list{
+		width: 80%;
+	}
+
+}
+
+.fade-content{
+	position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -khtml-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    padding-left: 5%;
+    color: #fff;
+    right: 0;
+    padding-right: 12%;
+    text-align: right;
+
+    span{
+    	font-family: 'Raleway', sans-serif;
+    	font-weight: 100;
+    	font-size: 30px;
+    	font-style: italic;
+    	display: block;
+    }
+
+    a{
+    	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+	    border: 2px solid #fff;
+	    border-radius: 0;
+	    color: #fff;
+	    padding: 10px 30px;
+	    transition: all 0.2s ease 0s;
+    	font-family: 'Raleway', sans-serif;
+	    text-transform: uppercase;
+	    margin-top: 20px;
+	    display: inline-block;
+	    text-decoration: none;
+
+	    &:hover{
+	    	background: #fff;
+    		border: 2px solid #fff;
+    		color: #222;
+	    }
+    }
+}
 
 /************************************INDEX************************************/
 
-.home-wrapper{
+.scroller-wrapper{
 
 	.page-header{
 		margin-bottom: 0 !important;

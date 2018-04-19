@@ -28,7 +28,7 @@ class Pet < ApplicationRecord
   validates :city, presence: true
   validates :priority, presence: true
 
-  has_attached_file :photo, styles: { thumb: "100x100#", large: "300x300#"}, convert_options: { thumb: "-quality 50", large: "-quality 50" }
+  has_attached_file :photo, styles: { thumb: "100x100#", large: "490x490#"}, convert_options: { thumb: "-quality 50", large: "-quality 50" }
 	validates_attachment :photo, presence: true, size: { in: 0..3.megabytes }
 	validates_attachment_content_type :photo, content_type: /^image\/(jpg|jpeg|pjpeg|png|x-png|gif)$/
 

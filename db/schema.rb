@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180329174717) do
+ActiveRecord::Schema.define(version: 20180419182905) do
 
   create_table "adoptions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
@@ -98,6 +98,15 @@ ActiveRecord::Schema.define(version: 20180329174717) do
     t.datetime "updated_at", null: false
     t.bigint "pet_id"
     t.index ["pet_id"], name: "index_posts_on_pet_id"
+  end
+
+  create_table "sliders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "title"
+    t.string "subtitle"
+    t.string "buttontitle"
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
