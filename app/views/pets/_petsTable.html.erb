@@ -39,7 +39,8 @@
           <% end %>
 
           <% if params[:controller] == 'users' && params[:action] == 'show' || 
-                params[:controller] == 'users' && params[:action] == 'profile' %>
+                params[:controller] == 'users' && params[:action] == 'profile' ||
+                params[:controller] == 'users' && params[:action] == 'adopted_pets' %>
             <div class="pet-card-links">
               <%= render 'pets/tableLinks', user: @user, pet: pet %>
             </div>

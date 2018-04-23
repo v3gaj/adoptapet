@@ -1,0 +1,13 @@
+<% if @pets && @pets.count > 0 %>
+  <%= render 'petsTable', obj: @pets %>
+<% else %>
+  <p class="lead">No hay mascotas que requieran adopción!</p>
+<% end %>
+
+<div align="center">
+  <% if params['data'] %>
+    <%= will_paginate( :params => {:data => params['data'], :controller => "pets", :action => "paginate", remote: :true } ) %>
+  <% else %>
+    <%= will_paginate :container => {remote: true}, :params => {:action => "paginate" } %>
+  <% end %>
+</div>

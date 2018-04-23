@@ -21,7 +21,7 @@
         </div>
         <% if current_user && current_user.admin? %>
             <%= link_to sliders_path do %>
-                <i class="fa fa-edit"></i>
+                <i class="fa fa-edit" data-toggle="tooltip" data-placement="bottom" title="Editar slider"></i>
             <% end %>
         <% end %>
         <%= image_tag 'pet-background.jpg' %>

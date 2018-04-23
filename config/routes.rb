@@ -31,6 +31,17 @@ Rails.application.routes.draw do
 
   get 'pet_profile', to: 'pets#profile'
   get 'pet_gallery', to: 'pets#gallery'
+  post 'pet_paginate', to: 'pets#paginate'
+  get 'pet_paginate', to: 'pets#paginate'
+  post 'pet_filter', to: 'pets#filter'
+  get 'pet_filter', to: 'pets#filter'
+  post 'user_pets_for_adoption', to: 'users#pets_for_adoption'
+  get 'user_pets_for_adoption', to: 'users#pets_for_adoption'
+  post 'user_requests_for_pets', to: 'users#requests_for_pets'
+  get 'user_requests_for_pets', to: 'users#requests_for_pets'
+  post 'user_adopted_pets', to: 'users#adopted_pets'
+  get 'user_adopted_pets', to: 'users#adopted_pets'
+
 
   get 'pets/adoption/available/', to: 'pets#index', as: 'pets_for_adoption'
   post 'pets/adoption/available/', to: 'pets#index'

@@ -46,38 +46,33 @@
       </div>
 
 
-      <% if @myPets && @myPets.count > 0 %>
+      <% if @my_pets && @my_pets.count > 0 %>
         <div class="page-header">
           <h2>Mis Mascotas Adoptadas</h2>
         </div>
-        <%= render 'pets/petsTable', obj: @myPets %>
+        <div id="user-adopted-pets">
+          <%= render 'adopted_pets' %>
+        </div>
       <% end %>
-
-      <div align="center">
-        <%= will_paginate @myPets, :param_name => 'myPets_page' %>
-      </div>
 
       <% if @adoptions && @adoptions.count > 0 %>
         <div class="page-header">
           <h2>Mascotas Ingresadas para Adopción</h2>
         </div>
-        <%= render 'pets/petsUserAdoptions', obj: @adoptions %>
+        <div id="user-pets-for-adoption">
+          <%= render 'pets_for_adoption', obj: @adoptions %>
+        </div>
       <% end %>
-
-      <div align="center">
-        <%= will_paginate @adoptions, :param_name => 'adoptions_page' %>
-      </div>
 
       <% if @requests && @requests.count > 0 %>
         <div class="page-header">
           <h2>Mis Solicitudes de Mascotas</h2>
         </div>
-        <%= render 'pets/petsUserRequests', obj: @requests %>
+        <div id="user-requests-for-pets">
+          <%= render 'requests_for_pets', obj: @requests %>
+        </div>
       <% end %>
 
-      <div align="center">
-        <%= will_paginate @requests, :param_name => 'requests_page' %>
-      </div>
     </div>
   </div>
 </div>

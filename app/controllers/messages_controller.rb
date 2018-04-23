@@ -6,13 +6,13 @@ class MessagesController < ApplicationController
 
   def create
     @message = Message.new(message_params)
-    
-    if @message.valid?
-      ContactMailer.new_message(@message).deliver
-      redirect_to contact_path, notice: "El mensaje ha sido enviado."
-    else
-      flash[:alert] = "Ha ocurrido un error al enviar el mensaje."
-      redirect_to contact_path
+    respond_to do |format|
+      if @message.valid?
+        ContactMailer.new_message(@message).deliver
+        format.js   { render :layout => false }
+      else
+        format.js   { render :layout => false }
+      end
     end
   end
 

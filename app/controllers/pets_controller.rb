@@ -9,42 +9,8 @@ class PetsController < ApplicationController
   # GET /pets
   # GET /pets.json
   def index
-    
-    @categories = Category.all.joins(:pets).where('(pets.owner_id IS NULL OR 
-                                                   pets.id IN (?)) AND 
-                                                   pets.deleted = ?', 
-                                                   (Adoption.all.select(:pet_id).where('adoptions.status = ?', 'returned')),
-                                                   false).uniq
-
-    if params["data"].present? && (params['data']['category_id'].present? || params['data']['priority'].present? || params['data']['gender'].present?)
-      category_id = params['data']['category_id']
-      priority = params['data']['priority']
-      gender = params['data']['gender']
-      
-      @pets = Pet.all.where('(pets.owner_id IS NULL OR 
-                             pets.id IN (?)) AND 
-                             pets.category_id LIKE ? AND 
-                             pets.priority LIKE ? AND 
-                             pets.gender LIKE ? AND 
-                             pets.deleted = ?', 
-                             (Adoption.all.select(:pet_id).where('adoptions.status = ?', 'returned')), 
-                             "%"+category_id+"%", 
-                             "%"+priority+"%", 
-                             "%"+gender+"%", 
-                             false).order(created_at: :desc)
-      @pets_slider = @pets
-      @pets.count < 1 ? @search_results = 0 : @search_results = @pets.count
-      @pets = @pets.paginate(page: params[:page], per_page: 12)
-    else
-      @pets = Pet.all.where('(pets.owner_id IS NULL OR 
-                             pets.id IN (?)) AND 
-                             pets.deleted = ?', 
-                             (Adoption.all.select(:pet_id).where('adoptions.status = ?', 'returned')), 
-                             false).order(created_at: :desc)
-      @pets_slider = @pets
-      @pets = @pets.paginate(page: params[:page], per_page: 12)
-    end
-
+    categories_for_adoption
+    pets_for_adoption(params)
   end
 
   def requests
@@ -70,6 +36,21 @@ class PetsController < ApplicationController
     else
       @pets = Pet.all.joins(:adoptions).where("pets.show = ? AND adoptions.status = ?", true, 'accepted').order("adoptions.updated_at desc").uniq
       @pets = @pets.paginate(page: params[:page], per_page: 12)
+    end
+  end
+
+  def filter
+    categories_for_adoption
+    pets_for_adoption(params)
+    respond_to do |format|
+      format.js   { render :layout => false }
+    end
+  end
+
+  def paginate
+    pets_for_adoption(params)
+    respond_to do |format|
+      format.js   { render :layout => false }
     end
   end
 
@@ -230,6 +211,45 @@ class PetsController < ApplicationController
         flash[:danger] = "La mascota no existe."
         redirect_back fallback_location: my_profile_path
       end
+    end
+
+    def pets_for_adoption(params)
+      if params["data"].present? && (params['data']['category_id'].present? || params['data']['priority'].present? || params['data']['gender'].present?)
+        category_id = params['data']['category_id']
+        priority = params['data']['priority']
+        gender = params['data']['gender']
+        
+        @pets = Pet.all.where('(pets.owner_id IS NULL OR 
+                               pets.id IN (?)) AND 
+                               pets.category_id LIKE ? AND 
+                               pets.priority LIKE ? AND 
+                               pets.gender LIKE ? AND 
+                               pets.deleted = ?', 
+                               (Adoption.all.select(:pet_id).where('adoptions.status = ?', 'returned')), 
+                               "%"+category_id+"%", 
+                               "%"+priority+"%", 
+                               "%"+gender+"%", 
+                               false).order(created_at: :desc)
+        @pets_slider = @pets
+        @pets.count < 1 ? @search_results = 0 : @search_results = @pets.count
+        @pets = @pets.paginate(page: params[:page], per_page: 12)
+      else
+        @pets = Pet.all.where('(pets.owner_id IS NULL OR 
+                               pets.id IN (?)) AND 
+                               pets.deleted = ?', 
+                               (Adoption.all.select(:pet_id).where('adoptions.status = ?', 'returned')), 
+                               false).order(created_at: :desc)
+        @pets_slider = @pets
+        @pets = @pets.paginate(page: params[:page], per_page: 12)
+      end
+    end
+
+    def categories_for_adoption
+      @categories = Category.all.joins(:pets).where('(pets.owner_id IS NULL OR 
+                                                   pets.id IN (?)) AND 
+                                                   pets.deleted = ?', 
+                                                   (Adoption.all.select(:pet_id).where('adoptions.status = ?', 'returned')),
+                                                   false).uniq
     end
 
 end

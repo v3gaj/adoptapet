@@ -1,0 +1,5 @@
+<%= render 'pets/petsTable', obj: @my_pets %>
+
+<div align="center">
+	<%= will_paginate @my_pets, :param_name => 'myPets_page', :container => {remote: true}, :params => {:action => "adopted_pets" }  %>
+</div>

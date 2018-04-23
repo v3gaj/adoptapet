@@ -2,7 +2,9 @@
   <% if params[:controller] == 'pets' && params[:action] == 'index' %>
     <%= render 'pets/messageLinks', user: user, pet: pet %>
   <% end %>
-  <% if params[:controller] == 'users' && params[:action] == 'show' || params[:controller] == 'users' && params[:action] == 'profile' %>
+  <% if params[:controller] == 'users' && params[:action] == 'show' || 
+  		params[:controller] == 'users' && params[:action] == 'profile' ||
+  		params[:controller] == 'users' && params[:action] == 'adopted_pets' %>
     <%= render 'pets/actionLinks', user: user, pet: pet %>
   <% end %>
 <% else %>

@@ -1,0 +1,5 @@
+<% if @message.errors.any? %>
+	$('.message_errors').html("<%= j (render 'errors') %>");
+<% else %>
+	messages_create_js();
+<% end %>

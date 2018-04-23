@@ -722,6 +722,7 @@ body{
     	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
     	border-radius: 100%;
     	width: 300px;
+    	height: 300px;
     }
 }
 
@@ -1131,4 +1132,21 @@ footer{
 	margin-bottom: 30px;
 }
 
+.message_errors{
+	clear: both;
+	text-align: center;
+}
 
+.message_notice{
+	display: none;
+    font-family: 'Raleway', sans-serif;
+	background-color: green;
+	padding: 20px 0 20px 0;
+	color: #fff;
+	border-radius: 4px;
+	margin: 0 15px 0 15px;
+}
+
+.message_warning{
+	display: block;
+}

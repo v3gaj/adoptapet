@@ -24,27 +24,16 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @myPets = @user.owned_pets
-
-    #@myPets = @user.animals.joins(:adoptions).where("adoptions.status = ?", 'accepted').or(@user.animals.joins(:adoptions).where("adoptions.status = ? AND adoptions.received = ?", 'returned', true )).uniq
-    @requests = @user.animals.joins(:adoptions).where("adoptions.status != 'accepted'").uniq
-    @adoptions = @user.pets.where("pets.deleted = false")
-
-    @myPets = @myPets.paginate(page: params[:myPets_page], per_page: 9)
-    @requests = @requests.paginate(page: params[:requests_page], per_page: 12)
-    @adoptions = @adoptions.paginate(page: params[:adoptions_page], per_page: 6)
+    my_pets
+    requests
+    adoptions
   end
 
   def profile
     @user = current_user
-    @myPets = @user.owned_pets
-    #@myPets = @user.animals.joins(:adoptions).where("adoptions.status = ?", 'accepted').or(@user.animals.joins(:adoptions).where("adoptions.status = ? AND adoptions.received = ?", 'returned', true )).uniq
-    @requests = @user.animals.joins(:adoptions).where("adoptions.status != 'accepted'").uniq
-    @adoptions = @user.pets.where("pets.deleted = false")
-
-    @myPets = @myPets.paginate(page: params[:myPets_page], per_page: 9)
-    @requests = @requests.paginate(page: params[:requests_page], per_page: 12)
-    @adoptions = @adoptions.paginate(page: params[:adoptions_page], per_page: 6)
+    my_pets
+    requests
+    adoptions
   end
 
   # GET /users/1/edit
@@ -79,6 +68,34 @@ class UsersController < ApplicationController
     end
   end
 
+  #CUSTOM
+
+  def adopted_pets
+    profile_or_show(params, current_user)
+    my_pets
+    respond_to do |format|
+      format.js   { render :layout => false }
+    end
+  end
+
+  def pets_for_adoption
+    profile_or_show(params, current_user)
+    adoptions
+    respond_to do |format|
+      format.js   { render :layout => false }
+    end
+  end
+
+  def requests_for_pets
+    profile_or_show(params, current_user)
+    requests
+    respond_to do |format|
+      format.js   { render :layout => false }
+    end
+  end
+
+  
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -92,5 +109,24 @@ class UsersController < ApplicationController
       else
         params.require(:user).permit(:name, :lastName, :province, :city, :phone, :photo)
       end        
+    end
+
+    def profile_or_show(params, current_user)
+      !params['id'] ? @user = current_user : set_user
+    end
+
+    def my_pets
+      @my_pets = @user.owned_pets
+      @my_pets = @my_pets.paginate(page: params[:myPets_page], per_page: 9)
+    end
+
+    def adoptions
+      @adoptions = @user.pets.where("pets.deleted = false")
+      @adoptions = @adoptions.paginate(page: params[:adoptions_page], per_page: 6)
+    end
+
+    def requests
+      @requests = @user.animals.joins(:adoptions).where("adoptions.status != 'accepted'").uniq
+      @requests = @requests.paginate(page: params[:requests_page], per_page: 12)
     end
 end
