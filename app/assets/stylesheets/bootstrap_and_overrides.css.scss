@@ -123,3 +123,11 @@
 	}
 
 }
+
+.fade{
+	position: fixed;
+	width: inherit;
+	max-width: inherit;
+	margin-top: -15px;
+	z-index: 100;
+}

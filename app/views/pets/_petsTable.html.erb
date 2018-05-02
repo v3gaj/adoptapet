@@ -10,7 +10,9 @@
             <%= image_tag "pet-cover1.jpg" %>
           <% end %>
 
-          <% if params[:controller] == 'pets' && params[:action] == 'index' %>
+          <% if params[:controller] == 'pets' && params[:action] == 'index' ||
+                params[:controller] == 'pets' && params[:action] == 'paginate_available_pets' ||
+                params[:controller] == 'pets' && params[:action] == 'filter_available_pets' %>
             <% if pet.priority == 'Baja' %>
               <span class="fa fa-circle green"></span>
             <% elsif pet.priority == 'Media' %>
@@ -32,7 +34,9 @@
           <p><%= pet.description %></p>
 
 
-          <% if params[:controller] == 'pets' && params[:action] == 'index' %>
+          <% if params[:controller] == 'pets' && params[:action] == 'index' ||
+                params[:controller] == 'pets' && params[:action] == 'paginate_available_pets' ||
+                params[:controller] == 'pets' && params[:action] == 'filter_available_pets' %>
             <div class="pet-card-links">
               <%= render 'pets/tableLinks', user: current_user, pet: pet  %>
             </div>

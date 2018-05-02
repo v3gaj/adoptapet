@@ -6,8 +6,8 @@
 
 <div align="center">
   <% if params['data'] %>
-    <%= will_paginate( :params => {:data => params['data'], :controller => "pets", :action => "paginate", remote: :true } ) %>
+    <%= will_paginate( :params => {:data => params['data'], :controller => "pets", :action => "paginate_available_pets", remote: :true } ) %>
   <% else %>
-    <%= will_paginate :container => {remote: true}, :params => {:action => "paginate" } %>
+    <%= will_paginate :container => {remote: true}, :params => {:action => "paginate_available_pets" } %>
   <% end %>
 </div>

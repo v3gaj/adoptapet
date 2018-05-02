@@ -28,3 +28,13 @@
     </div>
 </div>
 
+<% if @pets && @pets.count > 4 %>
+  <div class="home-gallery grid-6" id="masonry-thumbs">
+    <% @pets.each do |pet| %>
+      <div class="home-gallery-image">
+          <div class="overlay"></div>
+          <%= image_tag pet.photo.url(:large), class: "lazy" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

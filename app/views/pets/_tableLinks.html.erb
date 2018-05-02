@@ -1,5 +1,7 @@
 <% if user %>
-  <% if params[:controller] == 'pets' && params[:action] == 'index' %>
+  <% if params[:controller] == 'pets' && params[:action] == 'index' ||
+  		params[:controller] == 'pets' && params[:action] == 'paginate_available_pets' ||
+  		params[:controller] == 'pets' && params[:action] == 'filter_available_pets' %>
     <%= render 'pets/messageLinks', user: user, pet: pet %>
   <% end %>
   <% if params[:controller] == 'users' && params[:action] == 'show' || 

@@ -1,12 +1,17 @@
-
-<% if Pet.pet_owner(@pet, current_user) %>
-  <% if @adopters && @adopters.count > 0 %>
-    <div class="page-header">
-      <h1>Usuarios que quieren adoptar a <%= @pet.name.split.map(&:capitalize).join(' ') %></h1>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+          <% if Pet.pet_owner(@pet, current_user) %>
+            <% if @adopters && @adopters.count > 0 %>
+              <div class="page-header">
+                <h1>Usuarios que quieren adoptar a <%= @pet.name.split.map(&:capitalize).join(' ') %></h1>
+              </div>
+              <%= render 'users/userPetAdopters', obj: @adopters %>
+            <% end %>
+          <% end %>
+        </div>
     </div>
-    <%= render 'users/userPetAdopters', obj: @adopters %>
-  <% end %>
-<% end %>
+</div>
 
 <div class="pet-cover-wrapper">
   <div class="pet-cover">

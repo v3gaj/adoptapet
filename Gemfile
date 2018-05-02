@@ -5,7 +5,6 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
 # Use sqlite3 as the database for Active Record
@@ -38,7 +37,7 @@ gem 'devise'
 gem 'twitter-bootstrap-rails'
 gem 'devise-bootstrap-views'
 gem 'jquery-rails'
-gem "font-awesome-rails"
+gem 'font-awesome-rails'
 gem 'friendly_id', '~> 5.1.0'
 gem "paperclip"
 gem 'bcrypt', '~> 3.1.7'

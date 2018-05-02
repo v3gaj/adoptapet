@@ -48,7 +48,7 @@
     <div class="animation-wrapper">
       <div class="container">
         <div class="row">
-          <div class="col-lg-12">
+          <div class="col-lg-12 alert-max-width">
             <%= bootstrap_flash %>
           </div>
         </div>
@@ -93,7 +93,9 @@
             </ul>
           </div>
           <div class="col-lg-4 footer-menu-last">
-            <%= image_tag 'image-dog.png' %>
+            <%= link_to root_path, class: "navbar-brand" do %>
+              <%= image_tag 'image-dog.png' %>
+            <% end %>
           </div>
         </div>
       </div>

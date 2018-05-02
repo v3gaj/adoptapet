@@ -13,6 +13,21 @@ class PetsController < ApplicationController
     pets_for_adoption(params)
   end
 
+  def filter_available_pets
+    categories_for_adoption
+    pets_for_adoption(params)
+    respond_to do |format|
+      format.js   { render :layout => false }
+    end
+  end
+
+  def paginate_available_pets
+    pets_for_adoption(params)
+    respond_to do |format|
+      format.js   { render :layout => false }
+    end
+  end
+
   def requests
     @pets = Pet.all.joins(:adoptions).where("adoptions.status = ?", 'created').uniq.paginate(page: params[:page], per_page: 12)
   end
@@ -39,16 +54,25 @@ class PetsController < ApplicationController
     end
   end
 
-  def filter
-    categories_for_adoption
-    pets_for_adoption(params)
-    respond_to do |format|
-      format.js   { render :layout => false }
-    end
-  end
+  def filter_and_paginate_succesful_adoptions
+    if params["data"].present? && (params['data']['name'].present? || params['data']['category_id'].present?)
+      name = params['data']['name']
+      category_id = params['data']['category_id']
 
-  def paginate
-    pets_for_adoption(params)
+      @pets = Pet.all.joins(:adoptions).where("pets.name LIKE ? AND 
+                                               pets.category_id LIKE ? AND 
+                                               pets.show = ? AND 
+                                               adoptions.status = ?", 
+                                               "%"+name+"%", 
+                                               "%"+category_id+"%", 
+                                               true, 
+                                               'accepted').order("adoptions.updated_at desc").uniq
+      @pets.count < 1 ? @search_results = 0 : @search_results = @pets.count
+      @pets = @pets.paginate(page: params[:page], per_page: 12)
+    else
+      @pets = Pet.all.joins(:adoptions).where("pets.show = ? AND adoptions.status = ?", true, 'accepted').order("adoptions.updated_at desc").uniq
+      @pets = @pets.paginate(page: params[:page], per_page: 12)
+    end
     respond_to do |format|
       format.js   { render :layout => false }
     end

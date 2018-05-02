@@ -74,6 +74,10 @@ h6{
 	margin-bottom: 20px !important;
 }
 
+.alert-max-width{
+	max-width: 1170px;
+}
+
 .user-index-image{
 	img{
 		border-radius: 100%;
@@ -1124,6 +1128,51 @@ footer{
 	}
 }
 
+/************************************HOME************************************/
+
+.home-gallery{
+
+	.home-gallery-image{
+
+		img{
+			width: 100%;
+			height: 80%;
+		}
+
+		.overlay{
+			background-color: rgba(0,0,0,0.20);
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+		}
+	}
+}
+
+/************************************ABOUT************************************/
+
+.cd-timeline__img{
+	text-align: center;
+
+	i{
+		padding-top: 5px;
+	    font-size: 30px;
+	   	color: #fff;
+	}
+}
+
+@media only screen and (min-width: 1170px) {
+
+	.cd-timeline__img{
+		i{
+			padding-top: 10px;
+		    font-size: 40px;
+		}
+	}
+
+}
+
 
 /************************************CONTACT************************************/
 
@@ -1150,3 +1199,7 @@ footer{
 .message_warning{
 	display: block;
 }
+
+
+
+

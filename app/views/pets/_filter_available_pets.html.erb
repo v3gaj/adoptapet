@@ -17,7 +17,7 @@
 	<div class="row">
 	    <div class="col-lg-12">
 			<div class="filter-wrapper">
-				<%= form_for(:data, :url => {:action => 'filter'} ,remote: :true) do |f| %>
+				<%= form_for(:data, :url => {:action => 'filter_available_pets'} ,remote: :true) do |f| %>
 				  	<div class="form-group filter-group col-lg-3">
 				    	<div class="col-lg-12">
 				      		<%= f.select :category_id, options_for_select(@categories.map{|p|[p.title, p.id]}), { :include_blank => "Categoría..." }, class: "form-control", autofocus: true %>

@@ -32,7 +32,7 @@
             <li><%= active_link_to "Mascotas para Adopción", pets_for_adoption_path, active: :exclusive %></li>
             <li><%= active_link_to "Adopciones Exitosas", successful_adoptions_path, active: :exclusive %></li>
             <li role="separator" class="divider"></li>
-            <li><%= active_link_to "Agregar Mascota", new_pet_path %></li>
+            <li><%= active_link_to "Ingresar Mascota", new_pet_path %></li>
             <% if current_user && current_user.admin? %>
               <li role="separator" class="divider"></li>
               <li><%= active_link_to "Solicitudes de Adopción", adoption_requests_path, active: :exclusive  %></li>
