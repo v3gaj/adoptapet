@@ -3,9 +3,11 @@
           adoption_path( userId: user.id, petId: pet.id, type: "keep", id: 0), :method => :put, :class => 'btn btn-success',
 			data: { confirm: "Con esta acción estas indicando que deseas conservar la mascota previamente puesta en adopción, esta seguro de que desea realizar esta acción?"} %>
 <% elsif Adoption.adoption_status(user, pet, 'accepted') %>
-  <%= link_to "Devolver Mascota",
+  <% if false %>
+  <%- link_to "Devolver Mascota",
           edit_adoption_path( userId: user.id, petId: pet.id, id: 0), :class => 'btn btn-danger',
 			data: { confirm: "Con esta acción estas indicando que deseas poner la mascota nuevamente en adopción, esta seguro de que desea realizar esta acción?"} %>
+  <% end %>
 <% end %>
 <% if Adoption.adoption_accepted_not_received?(user, pet) %>
   <%= link_to "Mascota Recibida",
