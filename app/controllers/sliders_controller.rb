@@ -70,6 +70,6 @@ class SlidersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def slider_params
-      params.require(:slider).permit(:title, :subtitle, :buttontitle, :url)
+      params.require(:slider).permit(:title, :subtitle, :buttontitle, :url, :image)
     end
 end

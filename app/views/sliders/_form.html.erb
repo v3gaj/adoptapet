@@ -39,6 +39,12 @@
       <%= f.text_field :url, :class => 'form-control' %>
     </div>
   </div>
+  <div class="form-group">
+    <%= f.label "Foto *", :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.file_field :image, :class => 'form-control', :required => true %>
+    </div>
+  </div>
 
   <div class="form-group">
     <div class="col-lg-offset-2 col-lg-10">

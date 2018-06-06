@@ -1,40 +1,94 @@
-<div class="fade-wrapper">
-    
-    <div class="fade-middle">
-
-        <div class="fade-slider fade-absolute">
-            <% @sliders.each do |slider| %>
-                <div>
-                    <div class="fade-content">
-                        <h6><%= slider.title %></h6>
-                        <span><%= slider.subtitle %></span>
-                        <% if  slider.url? %>
-                            <% if slider.buttontitle? %>
-                                <%= link_to slider.buttontitle, slider.url  %>
-                            <% else %>
-                                <%= link_to slider.url, slider.url  %>
-                            <% end %>
+<div class="home-slider-wrapper">
+	<div id="home-slider" class="home-slider">
+		<% @sliders.each do |slide| %>
+			<div class="slide">
+				<%= image_tag slide.image(:normal) %>
+				<div class="home-slider-overlay"></div>
+				<div class="home-slider-content">
+		  			<h6><%= slide.title %></h6>
+					<span><%= slide.subtitle %></span>
+					<% if slide.url? %>
+						<% if slide.buttontitle? %>
+                            <%= link_to slide.buttontitle, slider.url  %>
+                        <% else %>
+                            <%= link_to slide.url, slide.url  %>
                         <% end %>
-                    </div>
-                </div>
-            <% end %>
-        </div>
-        <% if current_user && current_user.admin? %>
-            <%= link_to sliders_path do %>
-                <i class="fa fa-edit" data-toggle="tooltip" data-placement="bottom" title="Editar slider"></i>
-            <% end %>
+					<% end %>
+		  		</div>
+			</div>
+		<% end %>
+	</div>
+    <% if current_user && current_user.admin? %>
+        <%= link_to sliders_path, :class => 'edit-slider' do %>
+            <i class="fa fa-edit" data-toggle="tooltip" data-placement="bottom" title="Editar slider"></i>
         <% end %>
-        <%= image_tag 'pet-background.jpg' %>
+    <% end %>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-head">
+              <h1>Adoptanos</h1>
+              <hr class="hr">
+              <h3>Estas son algunas de las mascotas en adopción</h3>
+            </div>	
+        </div>
     </div>
 </div>
 
 <% if @pets && @pets.count > 4 %>
-  <div class="home-gallery grid-6" id="masonry-thumbs">
+  <div id="masonry-container" class="transitions-enabled infinite-scroll clearfix masonry-width home-gallery">
     <% @pets.each do |pet| %>
-      <div class="home-gallery-image">
-          <div class="overlay"></div>
-          <%= image_tag pet.photo.url(:large), class: "lazy" %>
-      </div>
+        <div class="box col-lg-2 home-gallery-image">
+            <%= link_to pet_path(pet) do %>
+                <div class="box-img">
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <i class="fa fa-paw"></i>
+                        </div>
+                    </div>
+                    <%= image_tag pet.photo.url(:wide), class: "lazy" %>
+                </div>
+            <% end %>
+        </div>
     <% end %>
   </div>
 <% end %>
+
+<div class="parallax-home parallax-wrapper">
+	<div class="parallax">
+		<div class="overlay-parallax"></div>
+		<div class="info-parallax">
+			<h1>Siguenos en redes sociales</h1>
+            <div class="social-links">
+                <span><i class="fa fa-facebook-official" aria-hidden="true"></i></span>
+                <span><i class="fa fa-instagram" aria-hidden="true"></i></span>
+            </div>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-head">
+              <h1>Patrocinadores</h1>
+              <hr class="hr"></div>
+            </div>	
+        </div>
+    </div>
+</div>
+
+<div class="sponsor-slider-wrapper">
+	<div id="sponsor-slider" class="sponsor-slider">
+		<div><%= image_tag 'sponsor.png' %></div>
+        <div><%= image_tag 'sponsor.png' %></div>
+        <div><%= image_tag 'sponsor.png' %></div>
+        <div><%= image_tag 'sponsor.png' %></div>
+        <div><%= image_tag 'sponsor.png' %></div>
+        <div><%= image_tag 'sponsor.png' %></div>
+        <div><%= image_tag 'sponsor.png' %></div>
+        <div><%= image_tag 'sponsor.png' %></div>
+	</div>
+</div>

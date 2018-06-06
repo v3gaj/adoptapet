@@ -5,7 +5,7 @@ class IndexController < ApplicationController
                                pets.id IN (?)) AND 
                                pets.deleted = ?', 
                                (Adoption.all.select(:pet_id).where('adoptions.status = ?', 'returned')), 
-                               false).order(created_at: :desc).limit(12)
+                               false).limit(9).order("RAND()")
   end
 
   def about

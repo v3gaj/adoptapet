@@ -32,6 +32,7 @@ $(document).on('turbolinks:load', function() {
 	panelPetProfile();
 	petSlider();
 	fadeSlider();
+	sponsorSlider();
 	masonryGallery();
 	homeGallery()
 	lazyMasonry();
@@ -39,6 +40,7 @@ $(document).on('turbolinks:load', function() {
 	toolpit();
 	showAnimation();
 	timeline();
+	homeSliderHeight();
 	addRemoteTrue("adoptions-available-scroller");
 	addRemoteTrue("user-pets-for-adoption");
 	addRemoteTrue("user-requests-for-pets");
@@ -53,6 +55,40 @@ $(document).on('turbolinks:load', function() {
 
 
 });
+
+function homeSliderHeight(){
+	if ($('.slide img').length != 0) {
+		var array = $( ".slide img" ).toArray()
+		var height = 0;
+		var win = $(window).height();
+		var menuOffset = $('.navbar').offset();
+		var menuHeight = $('.navbar').height();
+
+		var menu = menuOffset.top + menuHeight;
+		var menu = win - menu;
+
+		for (var i = 0; i < array.length; i++) {
+			var attribute = $(array[i]).height();
+			if (height == 0) {
+				height = attribute
+			}else if (attribute < height) {
+				height = attribute
+			}
+		}
+
+		if(height < 512){
+			height = 512
+		}
+
+		if (height > (win - menuHeight)) {
+			$('#home-slider').css('height', win - menuHeight);
+		    $('#home-slider .slide').css('height', win - menuHeight);
+		}else{
+			$('#home-slider').css('height', height);
+		  $('#home-slider .slide').css('height', height);
+		}
+	}
+}
 
 function panelPetProfile(){
 	$(function(){
@@ -93,7 +129,7 @@ function petSlider(){
 }
 
 function fadeSlider(){
-	$('.fade-slider').slick({
+	$('.home-slider').slick({
 	  dots: true,
 	  infinite: true,
 	  autoplay: true,
@@ -102,6 +138,17 @@ function fadeSlider(){
 	  cssEase: 'linear',
 	  pauseOnHover:false
 	});	
+}
+
+function sponsorSlider(){
+	$('.sponsor-slider').slick({
+		arrows: true,
+		infinite: true,
+		slidesToShow: 5,
+		slidesToScroll: 1,
+		autoplay: true,
+	  	autoplaySpeed: 1000,
+	});
 }
 
 function masonryGallery(){
