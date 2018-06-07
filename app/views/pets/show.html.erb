@@ -20,6 +20,7 @@
     <% else %>
       <%= image_tag 'pet-cover-profile.jpg', class: 'pet-cover-img' %>
     <% end %>
+    <div class="pet-cover-overlay"></div>
     <div class="pet-cover-profile">
       <%= image_tag @pet.photo.url(:large) %>
       <h1><%= title  @pet.name.split.map(&:capitalize).join(' ') %></h1>
