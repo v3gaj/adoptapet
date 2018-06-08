@@ -55,7 +55,9 @@
     <% end %>
   </div>
 <% else %>
-    <%= link_to "Mascotas en Adpción", pets_for_adoption_path %>
+    <div class="available-adoptions-link">
+        <%= link_to "Mascotas en Adpción", pets_for_adoption_path, :class => "btn btn-primary" %>
+    </div>
 <% end %>
 
 <div class="parallax-home parallax-wrapper">

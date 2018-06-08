@@ -1456,6 +1456,15 @@ footer{
 	top: 0 !important;
 }
 
+.available-adoptions-link{
+	text-align: center;
+	padding-bottom: 100px;
+
+	a{
+		border-radius: 15px;
+	}
+}
+
 /************************************RESPONSIVE************************************/
 
 @media (max-width: 1200px){
