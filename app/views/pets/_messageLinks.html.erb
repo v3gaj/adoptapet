@@ -12,6 +12,6 @@
   <% if user.id == pet.user_id %>
     <span class="label label-warning">Creaste esta Mascota!</span>
   <% else %>
-    <%= link_to "Quiero esta Mascota!",new_adoption_path(petId: pet.id), :class => 'btn btn-success' %>
+    <%= link_to "Quiero adoptarte!",new_adoption_path(petId: pet.id), :class => 'btn btn-success' %>
   <% end %>
 <% end %>

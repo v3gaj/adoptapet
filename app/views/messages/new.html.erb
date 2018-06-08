@@ -1,6 +1,6 @@
 <%= form_for @message, url: contact_path, :html => { :class => "form-horizontal contact col-lg-12", remote: true } do |message_form| %>
   <div class="form-group">
-    <div class="col-lg-6">
+    <div class="col-lg-6 contact-name">
       <%= message_form.text_field :name, :class => 'form-control form-clear', placeholder: "Nombre...", :required => true %>
     </div>
     <div class="col-lg-6">

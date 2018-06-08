@@ -15,12 +15,14 @@
         <% end %>
       <% end %>
     <% end %>
-    <% if current_user %>
-      <%= active_link_to("Cerrar Sesión", destroy_user_session_path, class: "btn btn-primary access-link", method: :delete) %>
-    <% else %>
-      <%= active_link_to "Registrarse", new_user_registration_path, class: "btn btn-primary access-link" %>
-      <%= active_link_to "Iniciar Sesión", new_user_session_path, class: "btn btn-primary access-link" %>
-    <% end %>
+    <div>
+      <% if current_user %>
+        <%= active_link_to("Cerrar", destroy_user_session_path, class: "btn btn-primary access-link", method: :delete) %>
+      <% else %>
+        <%= active_link_to "Registro", new_user_registration_path, class: "btn btn-primary access-link" %>
+        <%= active_link_to "Ingresar", new_user_session_path, class: "btn btn-primary access-link" %>
+      <% end %>
+    </div>
     <div class="navbar-collapse collapse navbar-responsive-collapse">
       <ul class="nav navbar-nav">
         <li><%= active_link_to "Inicio", root_path, active: :exclusive  %></li>
@@ -29,12 +31,10 @@
             Mascotas<span class="caret"></span>
           <% end %>
           <ul class="dropdown-menu">
-            <li><%= active_link_to "Mascotas para Adopción", pets_for_adoption_path, active: :exclusive %></li>
+            <li><%= active_link_to "Mascotas en Adopción", pets_for_adoption_path, active: :exclusive %></li>
             <li><%= active_link_to "Adopciones Exitosas", successful_adoptions_path, active: :exclusive %></li>
-            <li role="separator" class="divider"></li>
-            <li><%= active_link_to "Ingresar Mascota", new_pet_path %></li>
+            <li><%= active_link_to "Agregar Mascota", new_pet_path %></li>
             <% if current_user && current_user.admin? %>
-              <li role="separator" class="divider"></li>
               <li><%= active_link_to "Solicitudes de Adopción", adoption_requests_path, active: :exclusive  %></li>
             <% end %>
           </ul>

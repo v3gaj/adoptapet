@@ -40,7 +40,7 @@
 <% if @pets && @pets.count > 4 %>
   <div id="masonry-container" class="transitions-enabled infinite-scroll clearfix masonry-width home-gallery">
     <% @pets.each do |pet| %>
-        <div class="box col-lg-2 home-gallery-image">
+        <div class="box home-gallery-image">
             <%= link_to pet_path(pet) do %>
                 <div class="box-img">
                     <div class="overlay">
@@ -54,6 +54,8 @@
         </div>
     <% end %>
   </div>
+<% else %>
+    <%= link_to "Mascotas en Adpción", pets_for_adoption_path %>
 <% end %>
 
 <div class="parallax-home parallax-wrapper">

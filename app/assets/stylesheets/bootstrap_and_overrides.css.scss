@@ -118,7 +118,7 @@
 	}
 	
 	.navbar-collapse{
-		min-width: 200px !important;
+		min-width: 220px !important;
 		position: relative;
 	}
 
@@ -130,4 +130,8 @@
 	max-width: inherit;
 	margin-top: -15px;
 	z-index: 100;
+}
+
+.dropdown-menu>li>a {
+    padding: 5px 20px;
 }

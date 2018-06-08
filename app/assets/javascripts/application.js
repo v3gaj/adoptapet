@@ -40,7 +40,13 @@ $(document).on('turbolinks:load', function() {
 	toolpit();
 	showAnimation();
 	timeline();
-	homeSliderHeight();
+	$(".slide img").load(function(){
+		homeSliderHeight();
+	});
+	$(".pet-cover-img").load(function(){
+		petCoverFullBackground();
+	});
+	windowResize();
 	addRemoteTrue("adoptions-available-scroller");
 	addRemoteTrue("user-pets-for-adoption");
 	addRemoteTrue("user-requests-for-pets");
@@ -51,10 +57,25 @@ $(document).on('turbolinks:load', function() {
 	scrollTopPagination("user-pets-for-adoption");
 	scrollTopPagination("user-requests-for-pets");
 	scrollTopPagination("user-adopted-pets");
-
-
-
 });
+
+function windowResize(){
+	$(window).on('resize', function(){
+		petCoverFullBackground();
+	}).promise().done();
+}
+
+function petCoverFullBackground(){
+	var imageHeight = $('.pet-cover-img').height();
+	var wrapperHeight = $('.pet-cover').height();
+	var imageWidth = $('.pet-cover-img').width();
+	var wrapperWidth = $('.pet-cover').width();
+	if (imageHeight < wrapperHeight || imageWidth > wrapperWidth) {
+		$('.pet-cover-img').addClass('full-background');
+	}else{
+		$('.pet-cover-img').removeClass('full-background');
+	}
+}
 
 function homeSliderHeight(){
 	if ($('.slide img').length != 0) {
@@ -117,7 +138,7 @@ function petSlider(){
 	      }
 	    },
 	    {
-	      breakpoint: 480,
+	      breakpoint: 600,
 	      settings: {
 	        arrows: false,
 	        centerMode: true,
@@ -133,7 +154,7 @@ function fadeSlider(){
 	  dots: true,
 	  infinite: true,
 	  autoplay: true,
-	  autoplaySpeed: 3000,
+	  autoplaySpeed: 5000,
 	  arrows: false,
 	  cssEase: 'linear',
 	  pauseOnHover:false
@@ -142,12 +163,36 @@ function fadeSlider(){
 
 function sponsorSlider(){
 	$('.sponsor-slider').slick({
-		arrows: true,
+		arrows: false,
 		infinite: true,
 		slidesToShow: 5,
 		slidesToScroll: 1,
 		autoplay: true,
-	  	autoplaySpeed: 1000,
+		autoplaySpeed: 1000,
+		responsive: [
+			{
+			  breakpoint: 992,
+			  settings: {
+				arrows: false,
+				slidesToShow: 3
+			  }
+			},
+			{
+				breakpoint: 768,
+				settings: {
+				  arrows: false,
+				  slidesToShow: 2
+				}
+			},
+			{
+			  breakpoint: 500,
+			  settings: {
+				arrows: false,
+				slidesToShow: 1
+			  }
+			}
+		  ]
+		  
 	});
 }
 
@@ -226,6 +271,7 @@ function addRemoteTrue(element){
 function pets_paginate_js(){
 	addRemoteTrue("adoptions-available-scroller");
 	scrollTopPagination("adoptions-available-scroller");
+	toolpit();
 }
 
 function pets_filter_js(){
@@ -233,6 +279,7 @@ function pets_filter_js(){
 	petSlider();
 	scrollTop("filter-available-pets");
 	scrollTopPagination("adoptions-available-scroller");
+	toolpit();
 }
 
 function filter_and_paginate_succesful_adoptions_js(){
