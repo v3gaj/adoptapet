@@ -11,6 +11,7 @@ class IndexController < ApplicationController
   def about
   end
 
+
   def contact
     @message = Message.new
   end

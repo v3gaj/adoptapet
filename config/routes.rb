@@ -25,6 +25,8 @@ Rails.application.routes.draw do
 
   get 'about', to: 'index#about'
 
+  get 'process', to: 'index#process'
+
   match "contact", to: "index#contact", :via => 'get'
 
   get 'my_profile', to: 'users#profile'

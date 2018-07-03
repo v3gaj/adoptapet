@@ -44,6 +44,7 @@
           <li><%= active_link_to "Solicitudes", all_adoptions_path, active: :inclusive  %></li>
           <li><%= active_link_to "Categorias", categories_path, active: :inclusive  %></li>
         <% end %>
+        <li><%= active_link_to "Procéso", process_path, active: :exclusive, class: "hide-container"  %></li>
         <li><%= active_link_to "Nosotros", about_path, active: :exclusive, class: "hide-container"  %></li>
         <li><%= active_link_to "Contacto", contact_path, active: :exclusive, class: "hide-container"  %></li>
       </ul>
