@@ -91,14 +91,14 @@ Rails.application.configure do
 
   # CUSTOMS
 
-  config.action_mailer.asset_host = 'http://tripcustomizers.com'
+  config.action_mailer.asset_host = 'http://adoptmypet.org'
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.default_url_options = { host: 'tripcustomizers.com', protocol: 'http' }
+  config.action_mailer.default_url_options = { host: 'adoptmypet.org', protocol: 'http' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: "gator4142.hostgator.com",
     port: 465,
-    domain: "tripcustomizers.com",
+    domain: "adoptmypet.org",
     user_name: "webcontact@caffora.cafe",
     password: "Juan9173.",
     authentication: :plain,
