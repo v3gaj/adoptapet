@@ -29,6 +29,7 @@
  *= require slick-theme
  */
 
+
 body{
 	max-width: 1680px;
 	margin: 0 auto;
@@ -1310,7 +1311,7 @@ footer{
 }
 
 .parallax-home{
-	background-image: url('div.jpg');
+	background-image: url('mascotas.jpg');
 	margin-bottom: 100px;
 }
 
@@ -1362,11 +1363,12 @@ footer{
 
 .sponsor-slider{
 	.slick-slide{
-		text-align: center;
+		height: 260px;
+		position: relative;
 
 		img{
 			display: inline-block;
-			width: 90%;
+			width: 75%;
 		}
 	}
 
@@ -1387,6 +1389,18 @@ footer{
 	.slick-next{
 		right: 15px;
 	}
+}
+
+.sponsor{
+	position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -khtml-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+  text-align: center;
 }
 
 .sponsor-slider-wrapper{
@@ -1464,6 +1478,16 @@ footer{
 		border-radius: 30px;
 		font-size: 20px;
 		padding: 15px 30px;
+	}
+}
+
+.facebook-share{
+	i{
+		background-color: #fff;
+		color: #428bca;
+		border-radius: 3px;
+		padding: 3px 6px;
+		margin-right: 4px;
 	}
 }
 

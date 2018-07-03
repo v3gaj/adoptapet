@@ -62,9 +62,10 @@
                     <% end %>
                   <% elsif !Adoption.adoption_status_exists(@pet, "accepted") %>
                     <%= link_to "Quiero esta Mascota!", new_adoption_path(petId: @pet.id), :class => 'btn btn-success' %>
-                  <% else %>
-                    <p>No hay acciones disponibles</p>
                   <% end %>
+                  <a href="https://www.facebook.com/sharer/sharer.php?u=http://tripcustomizers.com/pets/<%= @pet.slug %>" class="facebook-share btn btn-primary" target="_blank"> 
+                    <i class="fa fa-facebook"></i> Compartir
+                  </a>
                 </div>
               </div>
             </div>
