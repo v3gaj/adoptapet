@@ -99,7 +99,7 @@ Rails.application.configure do
     address: "gator4142.hostgator.com",
     port: 465,
     domain: "adoptmypet.org",
-    user_name: "webcontact@caffora.cafe",
+    user_name: "webcontact@adoptmypet.org",
     password: "Juan9173.",
     authentication: :plain,
     enable_starttls_auto: true,

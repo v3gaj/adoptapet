@@ -1,7 +1,7 @@
 class ContactMailer < ApplicationMailer
 
-	default from: "Your Mailer <webcontact@caffora.cafe>"
-  default to: "Your Name <info@caffora.cafe>"
+	default from: "Your Mailer <webcontact@adoptmypet.org>"
+  default to: "Your Name <info@adoptmypet.org>"
 
   def new_message(message)
     @message = message
