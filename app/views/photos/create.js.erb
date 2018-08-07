@@ -1,6 +1,43 @@
 <% if @errors.any? %>
-  	$('#photo_errors').html("<%= j (render 'errors') %>");
+
+	$('#render-panels').html("<%= j (render :template => 'pets/gallery.html') %>");
+
+	$(function(){
+	  $('#masonry-container').masonry({
+	    itemSelector: '.box',
+	    isAnimated: !Modernizr.csstransitions,
+	    isFitWidth: true
+	  });
+
+	});
+
+	$('img.lazy').load(function() {
+	    masonry_update();
+	});
+
+
+	function masonry_update() {
+		$('#masonry-container').masonry({
+	    itemSelector: '.box',
+	    isAnimated: !Modernizr.csstransitions,
+	    isFitWidth: true
+	  });
+	} 
+
+	jQuery(document).ready(function($) {
+	  "use strict";
+	  /* pretty photo */
+	  $(document).ready(function(){
+	    $("a[rel^='prettyPhoto']").prettyPhoto();
+	    $("a.prettyphoto").prettyPhoto();
+	    $("a[rel^='prettyPhoto']").prettyPhoto({hook:"rel",social_tools:!1,theme:"pp_default",horizontal_padding:20,opacity:.8,deeplinking:!1});
+	   })
+	});
+
+  $('#photo_errors').html("<%= j (render 'errors') %>");
+
 <% else %>
+
 	$('#render-panels').html("<%= j (render :template => 'pets/gallery.html') %>");
 
 	$(function(){

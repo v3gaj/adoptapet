@@ -28,6 +28,7 @@ class PostsController < ApplicationController
     @posts = @pet.posts.all.order(created_at: :desc).limit(session[:count])
     respond_to do |format|
       if @post.save
+        create_photo(@pet.id, @post.image)
         @post = Post.new
         format.html { redirect_to pet_path(@pet), notice: 'La publicación se ha creado exitosamente.' }
         format.json { render :show, status: :created, location: @post }
@@ -97,6 +98,12 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
       params.require(:post).permit(:comment, :image)
+    end
+
+    def create_photo(pet_id, photo)
+      if Photo.create(:pet_id => pet_id, :photo => photo).valid?
+        puts 'Success'
+      end
     end
 
 end
