@@ -2,7 +2,7 @@
 	<div id="home-slider" class="home-slider">
 		<% @sliders.each do |slide| %>
 			<div class="slide">
-				<%= image_tag slide.image(:normal) %>
+				<%= image_tag slide.image(:original) %>
 				<div class="home-slider-overlay"></div>
 				<div class="home-slider-content">
 		  			<h6><%= slide.title %></h6>

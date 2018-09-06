@@ -16,13 +16,13 @@
 <div class="pet-cover-wrapper">
   <div class="pet-cover">
     <% if @pet.cover? %>
-      <%= image_tag @pet.cover.url(:large), class: 'pet-cover-img' %>
+      <%= image_tag @pet.cover.url(:original), class: 'pet-cover-img' %>
     <% else %>
       <%= image_tag 'pet-cover-profile.jpg', class: 'pet-cover-img' %>
     <% end %>
     <div class="pet-cover-overlay"></div>
     <div class="pet-cover-profile">
-      <%= image_tag @pet.photo.url(:large) %>
+      <%= image_tag @pet.photo.url(:original) %>
       <h1><%= title  @pet.name.split.map(&:capitalize).join(' ') %></h1>
       <p><%= description @pet.description %></p>
     </div>

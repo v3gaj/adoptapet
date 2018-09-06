@@ -91,6 +91,17 @@ Rails.application.configure do
 
   # CUSTOMS
 
+  config.paperclip_defaults = {
+    storage: :s3,
+    s3_credentials:  {
+      bucket:  ENV['S3_BUCKET_NAME'],
+      access_key_id:  ENV['AWS_ACCESS_KEY_ID'],
+      secret_access_key:  ENV['AWS_SECRET_ACCESS_KEY']
+    },
+    s3_region: ENV['AWS_REGION'],
+    s3_host_name: ENV['AWS_ENDPOINT']
+  }
+
   config.action_mailer.asset_host = 'http://adoptmypet.org'
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default_url_options = { host: 'adoptmypet.org', protocol: 'http' }

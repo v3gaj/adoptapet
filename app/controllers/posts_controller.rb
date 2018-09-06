@@ -26,9 +26,10 @@ class PostsController < ApplicationController
     @post.pet_id = @pet.id
     session[:count] += 1
     @posts = @pet.posts.all.order(created_at: :desc).limit(session[:count])
+
     respond_to do |format|
       if @post.save
-        create_photo(@pet.id, @post.image)
+        Photo.create(:pet_id => @pet.id, :photo => @post.image, :post_id => @post.id) 
         @post = Post.new
         format.html { redirect_to pet_path(@pet), notice: 'La publicación se ha creado exitosamente.' }
         format.json { render :show, status: :created, location: @post }

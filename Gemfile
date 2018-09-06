@@ -40,6 +40,8 @@ gem 'jquery-rails'
 gem 'font-awesome-rails'
 gem 'friendly_id', '~> 5.1.0'
 gem "paperclip"
+gem 'figaro'
+gem 'aws-sdk'
 gem 'bcrypt', '~> 3.1.7'
 gem 'active_link_to'
 gem 'masonry-rails'

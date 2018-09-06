@@ -29,7 +29,7 @@
           <% end %>
         </div>
         <div class="pet-info">
-          <%= link_to image_tag(pet.photo.url(:large)), pet_path(pet) %>
+          <%= link_to image_tag(pet.photo.url(:original)), pet_path(pet) %>
           <h3><%= link_to pet.name.split.map(&:capitalize).join(' '), pet_path(pet) %></h3>
           <p><%= pet.description %></p>
 

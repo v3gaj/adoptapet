@@ -10,7 +10,7 @@
           <div class="profile-bar left-bar">
 
             <% if @user.photo? %>
-              <%= image_tag @user.photo.url(:large), class: "img-circle" %>
+              <%= image_tag @user.photo.url(:original), class: "img-circle" %>
             <% else %>
               <%= image_tag 'userLarge.png', class: "img-circle" %>
             <% end %>

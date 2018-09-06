@@ -799,6 +799,10 @@ body{
 
 .user-profile{
 	overflow: auto;
+
+	img{
+		max-width: 300px;
+	}
 }
 
 .left-bar{
@@ -815,10 +819,16 @@ body{
   margin-bottom: 5px;
   clear: both;
   padding-top: 5px;
+  opacity: 0;
 
   img{
   	width: 100%;
   }
+}
+
+.render-photos{
+	padding-left: 7px !important;
+  padding-right: 7px !important;
 }
 
 .clearfix:before, .clearfix:after { content: ""; display: table; }
@@ -830,8 +840,9 @@ body{
 	padding: 0 !important;
 	margin: 0 !important;
 	padding-left: 7px !important;
-    padding-right: 7px !important;
-    padding-bottom: 14px !important;
+  padding-right: 7px !important;
+  padding-bottom: 14px !important;
+  width: 33.3%;
 } 
 
 .box-img{
@@ -1595,6 +1606,10 @@ footer{
 }
 
 @media (max-width: 767px){
+
+	.pet-gallery-image{
+	  width: 100%;
+	} 
 
 	.home-gallery{
 		.home-gallery-image,

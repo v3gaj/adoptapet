@@ -62,6 +62,7 @@ $(document).on('turbolinks:load', function() {
 function windowResize(){
 	$(window).on('resize', function(){
 		petCoverFullBackground();
+		masonryGallery();
 	}).promise().done();
 }
 
@@ -168,7 +169,7 @@ function sponsorSlider(){
 		slidesToShow: 5,
 		slidesToScroll: 1,
 		autoplay: true,
-		autoplaySpeed: 1000,
+		autoplaySpeed: 2000,
 		responsive: [
 			{
 			  breakpoint: 992,
@@ -221,19 +222,14 @@ function homeGallery(){
 function lazyMasonry(){
 	$('img.lazy').load(function() {
 	    masonryGallery();
+	    $('#masonry-container').css('opacity', 1);
 	});
 }
 
 function prettyPhot(){
-	jQuery(document).ready(function($) {
-	  "use strict";
-	  /* pretty photo */
-	  $(document).ready(function(){
-	    $("a[rel^='prettyPhoto']").prettyPhoto();
-	    $("a.prettyphoto").prettyPhoto();
-	    $("a[rel^='prettyPhoto']").prettyPhoto({hook:"rel",social_tools:!1,theme:"pp_default",horizontal_padding:20,opacity:.8,deeplinking:!1});
-	   })
-	});
+  $("a[rel^='prettyPhoto']").prettyPhoto();
+  $("a.prettyphoto").prettyPhoto();
+  $("a[rel^='prettyPhoto']").prettyPhoto({hook:"rel",social_tools:!1,theme:"pp_default",horizontal_padding:20,opacity:.8,deeplinking:!1});
 }
 
 function toolpit(){

@@ -31,3 +31,5 @@ tmp/*
 echo log >> .gitignore
 app/assets/javascripts/RailsAjax-Config.js.erb
 config/initializers/rails-ajax-config.rb
+# Ignore application configuration
+/config/application.yml

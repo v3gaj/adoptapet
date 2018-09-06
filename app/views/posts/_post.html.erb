@@ -1,9 +1,7 @@
 <% @posts.each do |post| %>
   <div class="post-details">
     <p><%= post.comment %></p>
-    <% if post.image? %>
-      <%= image_tag post.image(:medium)  %>
-    <% end %>
+    <%= image_tag post.photo.photo(:medium) if post.photo %>
     <span><strong><%= post.created_at.strftime("%b %d, %Y") %></strong></span>
     <% if Pet.pet_editor(@pet, current_user) %>
       <div class="post-actions">

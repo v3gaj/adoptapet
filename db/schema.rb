@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180530145427) do
+ActiveRecord::Schema.define(version: 20180821050136) do
 
   create_table "adoptions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
@@ -85,15 +85,13 @@ ActiveRecord::Schema.define(version: 20180530145427) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "pet_id"
+    t.bigint "post_id"
     t.index ["pet_id"], name: "index_photos_on_pet_id"
+    t.index ["post_id"], name: "index_photos_on_post_id"
   end
 
   create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "comment"
-    t.string "image_file_name"
-    t.string "image_content_type"
-    t.integer "image_file_size"
-    t.datetime "image_updated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "pet_id"
@@ -149,5 +147,6 @@ ActiveRecord::Schema.define(version: 20180530145427) do
   add_foreign_key "pets", "categories"
   add_foreign_key "pets", "users"
   add_foreign_key "photos", "pets"
+  add_foreign_key "photos", "posts"
   add_foreign_key "posts", "pets"
 end

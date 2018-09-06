@@ -28,11 +28,11 @@ class Pet < ApplicationRecord
   validates :city, presence: true
   validates :priority, presence: true
 
-  has_attached_file :photo, styles: { thumb: "100x100#", large: "490x490#", wide: "558x400#"}, convert_options: { thumb: "-quality 30", large: "-quality 30", wide: "-quality 50" }
+  has_attached_file :photo, styles: { thumb: "100x100#", original: "490x490#"}, convert_options: { thumb: "-quality 30", original: "-quality 30" }
 	validates_attachment :photo, presence: true, size: { in: 0..6.megabytes }
 	validates_attachment_content_type :photo, content_type: /^image\/(jpg|jpeg|pjpeg|png|x-png|gif)$/
 
-  has_attached_file :cover, styles: { thumb: "700x172#", large: "1600x632#"}, convert_options: { thumb: "-quality 30", large: "-quality 30" }
+  has_attached_file :cover, styles: { thumb: "700x172#", original: "1600x632#"}, convert_options: { thumb: "-quality 30", original: "-quality 30" }
   validates_attachment :cover, size: { in: 0..6.megabytes }
   validates_attachment_content_type :cover, content_type: /^image\/(jpg|jpeg|pjpeg|png|x-png|gif)$/
 
@@ -102,3 +102,6 @@ class Pet < ApplicationRecord
   end
 
 end
+
+# wide: "558x400#
+

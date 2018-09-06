@@ -1,15 +1,21 @@
-<% if Pet.pet_editor(@pet, current_user) %>
-  <%= render :template => 'photos/new' %>
-<% end %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <% if Pet.pet_editor(@pet, current_user) %>
+        <%= render :template => 'photos/new' %>
+      <% end %>
+    </div>
+  </div> 
+</div>
 
 <% if @photos && @photos.count > 0 %>
-  <div id="masonry-container" class="transitions-enabled infinite-scroll clearfix masonry-width">
+  <div id="masonry-container" class="infinite-scroll clearfix masonry-width">
     <% @photos.each do |photo| %>
-      <div class="box col-lg-4 pet-gallery-image">
+      <div class="box pet-gallery-image">
         <div class="box-img">
           <div class="overlay-pet-gallery">
             <div class="overlay_content_pet">
-              <a href="<%= photo.photo.url(:normal) %>" rel="prettyPhoto[rel-cms-grid]"><i class="fa fa-hand-pointer-o"></i></a> 
+              <a href="<%= photo.photo.url(:original) %>" rel="prettyPhoto[rel-cms-grid]"><i class="fa fa-hand-pointer-o"></i></a> 
             </div>
             <% if Pet.pet_editor(@pet, current_user) %>
               <%= link_to [@pet, photo], :method => :delete, data: { confirm: 'Estás seguro que deseas borra la imagen?'}, :remote => true, class: "pet-photo-delete" do %>
@@ -17,7 +23,7 @@
               <% end %>
             <% end %>
           </div>
-          <%= image_tag photo.photo.url(:normal), class: "lazy" %>
+          <%= image_tag photo.photo.url(:original), class: "lazy" %>
         </div>
       </div>
     <% end %>
